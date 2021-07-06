@@ -1,0 +1,67 @@
+.data-ingestion-filelist table tr th {
+  background: #8263ab;
+  color: #fff;
+  font-size: 18px;
+  font-weight: normal;
+  border: 2px solid #fff;
+  padding: 10px 20px;
+  width: 60%;
+  font-weight: 500;
+  text-align: center;
+}
+.data-ingestion-filelist table tr td {
+  background: #fff;
+  color: #768fa3;
+  font-size: 16px;
+  font-weight: normal;
+  border: 2px solid #fff;
+  padding: 8px 20px;
+}
+.data-ingestion-filelist table tr td .custom-control-label::before {
+  border: 2px solid rgba(95, 124, 147, 0.5) !important;
+}
+.data-ingestion-filelist table tr th .custom-control-label::before {
+  border: 2px solid rgba(255, 255, 255, 1) !important;
+}
+
+.table-scroll {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.form-group {
+  margin-bottom: auto !important;
+}
+
+.data-ingestion-filelist td {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+}
+.data-ingestion-filelist {
+  max-height: 300px;
+}
+@media screen and (min-height: 800px) {
+  .data-ingestion-filelist {
+    max-height: 400px !important;
+  }
+}
+
+.loadButton {
+  margin-right: 16px;
+}
+
+@media screen and (min-height: 780px) {
+  .page_content,
+  .content_left {
+    height: 95vh !important;
+  }
+}
+
+.submit-button {
+  margin-left: auto;
+}
+
+.requiredField {
+  color: red;
+  margin-top: -25px;
+}

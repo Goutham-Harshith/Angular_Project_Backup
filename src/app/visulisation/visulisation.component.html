@@ -1,0 +1,153 @@
+<!-- PAGE CONTENT OPEN -->
+<section class="page_content">
+  <div class="row main-content">
+    <!-- Left Content Open-->
+    <div class="col-lg-3 col-md-3 col-3 pr-0 content_left">
+      <div class="left_content">
+        <div class="bg_darkgray p-3">
+          <div class="row">
+            <div class="col-sm-12 col-12 mb-2 mb-sm-0">
+              <h3 class="text_lightgray mb-0 pl-md-3 pl-0">Visualization</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- start here i add dropdown code -->
+        <div class="wrapper">
+          <div class="px-4 py-4">
+            <div class="d-flex">
+              <div class="filter-wrap">
+                <img class="db-filters" src="{{filterImgPath}}" alt="">
+                <select class="filter" [(ngModel)]="selectedFilter" (change)="fetchTables()" required>
+                  <option value="25">Postgres</option>
+                  <option value="30">MySql</option>
+                  <option value="60">Hive</option>
+                </select>
+              </div>
+              <div class="scroll_inner">
+                <angular2-multiselect [data]="tblLevelList" [(ngModel)]="selectedItems" [settings]="dropdownSettings"
+                  (onSelect)="selectColumns($event)" (onDeSelect)="deSelectColumns($event)"
+                  (onDeSelectAll)="deSelectColumns($event)">
+                </angular2-multiselect>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-4 column-list" *ngIf="columns?.length > 0">
+            <ul class="fileul px-0" *ngFor="let column of columns;index as i">
+              <div draggable="true" (dragstart)="drag($event,column.columnName)" drag-active-class="">
+                <ul class="column-ul">
+                  <li class="column-li" *ngIf="isNumField(column.dataType)">
+                    <span class="column-li-red">#
+                      &nbsp;</span>{{column.columnName}}
+                  </li>
+                  <li class="column-li" *ngIf="!isNumField(column.dataType)">
+                    <span class="column-li-blue">$
+                      &nbsp;</span>{{column.columnName}}
+                  </li>
+                </ul>
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Left Content End-->
+    <!-- Right Content Open-->
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 scheduler-main">
+      <div class="row">
+
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 px-0 input-group">
+          <div class="px-1 select-input">
+            <div class="input-container" (drop)="drop($event)" (dragover)="allowDrop($event)">
+              <div class="x-container">
+                <div class="axis-col" *ngFor="let item of columnName1; let i = index;">
+                  <div class="shortText">
+                    <span>{{item}}</span>
+                  </div>
+                  <i class="fa fa-times cross-symbol" aria-hidden="true" style="color: white;"
+                    (click)="closeColumnX(i)"></i>
+                </div>
+              </div>
+              <i class="icon">X</i>
+            </div>
+            <div *ngIf="xColumn" class="text-danger">X field is required</div>
+          </div>
+
+          <div class="px-1 select-input">
+            <div class="input-container" (drop)="drop1($event)" (dragover)="allowDrop($event)">
+              <div class="x-container">
+                <div class="axis-col" *ngIf="columnName2?.length">
+                  <div class="shortText">
+                    <span>{{columnName2}}</span>
+                  </div>
+                  <i class="fa fa-times cross-symbol" aria-hidden="true" style="color: white;"
+                    (click)="closeColumnY(i)"></i>
+                </div>
+              </div>
+              <i class="icon">Y</i>
+            </div>
+            <div *ngIf="yColumn" class="text-danger">Y field is required</div>
+          </div>
+
+          <div class="px-1 select-input">
+            <select class="classic form-control showDownArrow" (focus)="showUpArrow()" (focusout)="showDownArrow()"
+              (change)="showDownArrow()" [(ngModel)]="selectedAggregation" #aggDropdown required>
+              <option value="" disabled selected>Select Aggregation</option>
+              <option value="Sum">Sum</option>
+              <option value="Average">Average</option>
+              <option value="Count">Count</option>
+              <option value="Min">Min</option>
+              <option value="Max">Max</option>
+            </select>
+            <div *ngIf="selectAgg" class="text-danger" id="requiredValue">Aggregation is required</div>
+          </div>
+
+          <div class="px-1">
+            <button type="button" class="btn btn-default pub-btn " (click)="publishGraph()">PUBLISH</button>
+          </div>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="discreteBarChart" *ngIf="showBarChart"></canvas>
+        <canvas id="multiBarChart" *ngIf="showMultiBarChart"></canvas>
+        <canvas id="pieChart" *ngIf="showPieChart"></canvas>
+      </div>
+    </div>
+    <!-- here i add start select graph -->
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 select-graph">
+      <div class="btn-group">
+        <div class="m-auto">
+          <span class="mr-2">Graph</span>
+          &nbsp;
+          <ul class="graph-unorder">
+            <li class="graph-list">
+              <label>
+                <input type="radio" checked="checked" value="discreteBarChart" name="chart-type"
+                  [(ngModel)]="selectedGraph" (change)="changeChart()" required>
+                <img src="assets/images/graph_icon1.jpg" title="Bar Chart" alt="Bar Chart">
+              </label>
+            </li>
+            <li class="graph-list">
+              <label>
+                <input type="radio" checked="checked" value="multiBarChart" name="chart-type"
+                  [(ngModel)]="selectedGraph" (change)="selectingGraph()" required>
+                <img src="assets/images/graph_icon2.jpg" title="MultiBar Chart" alt="MultiBar Chart">
+              </label>
+            </li>
+            <li class="graph-list">
+              <label>
+                <input type="radio" name="chart-type" value="pieChart" [(ngModel)]="selectedGraph"
+                  (change)="changeChart()" required>
+                <img src="assets/images/graph_icon3.jpg" title="Pie Chart" alt="Pie Chart">
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- here i add start select graph -->
+    <!-- Right Content End-->
+  </div>

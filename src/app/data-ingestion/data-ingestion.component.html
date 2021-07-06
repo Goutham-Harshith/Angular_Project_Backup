@@ -1,0 +1,203 @@
+<!-- PAGE CONTENT OPEN -->
+<section class="page_content">
+   <div class="row">
+      <!-- Left Content Open-->
+      <div class="col-lg-4 col-md-6 col-12 pr-0 content_left">
+         <app-page-left-cont></app-page-left-cont>
+      </div>
+      <!-- Left Content End-->
+      <!-- Right Content Open-->
+      <div class="col-lg-8 col-md-6 col-12 pl-0 content_right pb-5 rightBodyPad">
+
+         <div class="px-5 pb-4">
+            <form name="modalForm" [formGroup]="form" (ngSubmit)="submitCSV()">
+               <div class="d-flex">
+                  <div class="col-4 mr-2 align-items-center row">
+                     <label class="mb-0 mr-3">Project Name</label>
+                     <input type="text" class="mb-4 border border-dark form-control rounded-0"
+                        formControlName="jobName" [readonly]="editFlag" (keyup)="this.validateProjectName.next($event)"/>
+                     <div *ngIf="form.controls.jobName.touched && !form.controls.jobName.valid || isFormInvalid && !form.controls.jobName.valid">
+                        <div class="requiredField">Project name is required</div>
+                     </div>
+                     <div *ngIf="projectNameErrorMsg !='' && form.controls.jobName.valid">
+                        <div class="requiredField">{{projectNameErrorMsg}}</div>
+                     </div>
+                  </div>
+                  <div class="col-4 mr-2 align-items-center row select-dropdown">
+                     <label class="mb-0 mr-3">Destination DB</label>
+                     
+                        <select class="mb-4 border border-dark form-control rounded-0" id="inputdatabaseName"
+                        formControlName="destinationDb" value="" required="required" (change)="checkTableName()">
+                        <option value="hive">Hive</option>
+                        <option value="psql">Postgres</option>
+                        <option value="snowflake">Snowflake</option>
+                     </select>
+                  
+                     
+                  </div>
+                  <div class="col-4 mr-2 align-items-center row ">
+                     <a class="show-options" (click)="showMoreOptions()"><i class="fa fa-angle-down"
+                           aria-hidden="true"></i> More options</a>
+                  </div>
+               </div>
+               <div class="col-12 px-0 moreOptions">
+                  <div class="col-4 row align-items-center d-flex mr-2">
+                     <label class="mb-0  d-inline-block mr-5 align-middle">Delimiter</label>
+                     <input type="text" class="mb-4 border d-inline-block border-dark form-control rounded-0"
+                        formControlName="delimiter" />
+                  </div>
+                  <div class="col-4 row align-items-center d-flex mr-2">
+                     <label class="mb-0  d-inline-block mr-3 align-middle">Quote Character</label>
+                     <input type="text" class="mb-4 border d-inline-block  border-dark form-control rounded-0"
+                        formControlName="quoteCharacter" />
+                  </div>
+                  <div class="col-4 row align-items-center d-flex mr-2">
+                     <label class="mb-0  d-inline-block mr-3 align-middle">Escape Character</label>
+                     <input type="text" class="mb-4 border d-inline-block  border-dark form-control rounded-0"
+                        formControlName="escapeCharacter" />
+                  </div>
+               </div>
+
+               <div class="col-12 drag-drop-cont px-5 mb-4">
+                  <h2 class="d-inline-block mb-0"><img src="assets/images/drag_drop_icon.png" width="60"
+                        class="d-inline-block align-middle" />{{filePlaceHolder}}</h2>
+                  <div class="upload-btn-wrapper float-right mt-2">
+                     <label for="browser" class="btn">Browse</label>
+                     <input type="file" accept=".csv" id="browser" name="myfile" (change)="uploadFile($event.target.files)" />
+                  </div>
+               </div>
+               <div class="col-12 px-0 d-flex">
+                  <div class="col-4 row align-items-center d-flex mr-2">
+                     <label class="mb-0  d-inline-block mr-3 align-middle">Table Name</label>
+                     <input type="text" class="mb-4 border d-inline-block  border-dark form-control rounded-0"
+                        formControlName="tableName" (keyup)="this.validateTableName.next($event)" />
+                        <div *ngIf="form.controls.tableName.touched && !form.controls.tableName.valid || isFormInvalid && !form.controls.tableName.valid">
+                           <div class="requiredField">Table name is required</div>
+                        </div>
+                        <div *ngIf="form.controls.tableName.valid && form.errors">
+                           <div class="requiredField">{{form.errors.message}}</div>
+                        </div>
+                        <div *ngIf="tableNameErrorMsg !='' && form.controls.tableName.valid && !form.errors">
+                           <div class="requiredField demo">{{tableNameErrorMsg}}</div>
+                        </div>
+                  </div>
+               </div>
+
+               <div class="col-12 my-4 p-0 file_fields_outer commentMar" *ngIf="csvColumns?.length > 0 && !showPreview">
+                  <div class="file_fields_list border border-medium p-1">
+                     <table cellpadding="0" cellspacing="0" border="0" id="csvTable" class="table table-bordered m-0">
+                        <thead>
+                           <tr>
+                              <th>Column Name</th>
+                              <th>Data Type</th>
+                              <th>Other Filters</th>
+                           </tr>
+                        </thead>
+                        <tbody *ngFor="let column of csvColumns">
+                           <tr>
+                              <td>{{column.columnName}}</td>
+                              <td>
+                                 <div class="select_custom">
+                                    <select id="{{column}}_datatype" name="data-type"
+                                       (change)="displayDateField($event.target.value,column)">
+                                       <option value="{{column.dataType}}">{{column.dataType}}</option>
+                                       <option value="INT">Integer</option>
+
+                                       <option value="FLOAT">Float</option>
+
+                                       <option value="DOUBLE">Double</option>
+
+                                       <option value="DECIMAL">Decimal</option>
+
+                                       <option value="TIMESTAMP">TimeStamp</option>
+
+                                       <option value="DATE">Date</option>
+
+                                       <option value="STRING">String</option>
+
+                                       <option value="varchar">Varchar</option>
+
+                                       <option value="CHAR">Char</option>
+
+                                       <option value="BOOLEAN">Boolean</option>
+
+                                    </select></div>
+                              </td>
+                              <td>
+                                 <select id="data-type-{{column.columnName}}" name="date-format" class="displayNone"
+                                    required>
+                                    <option value="dd/MM/yy">dd/MM/yy</option>
+                                    <option value="dd/MM/yyyy">dd/MM/yyyy</option>
+
+                                    <option value="dd/MMM/yyyy"> dd/MMM/yyyy</option>
+
+                                    <option value="dd/MMMM/yyyy">dd/MMMM/yyyy</option>
+
+                                    <option value="dd/MM/yyyy HH:mm:ss">dd/MM/yyyy HH:mm:ss</option>
+
+                                    <option value="dd/M/yy">dd/M/yy</option>
+
+                                    <option value="MM/dd/yyyy HH:mm">MM/dd/yyyy HH:mm</option>
+
+                                    <option value="MM/dd/yyyy HH:mm">MM/dd/yyyy HH:mm:ss</option>
+
+                                    <option value="MM/dd/yyyy">MM/dd/yyyy</option>
+
+                                    <option value="dd/MM/yyyy hh:mm:ss">dd/MM/yyyy hh:mm:ss</option>
+
+                                    <option value="dd/MM/yyyy HH:mm:ss a">dd/MM/yyyy HH:mm:ss a</option>
+
+                                    <option value="dd/MM/yyyy HH:mm:ss a z">dd/MM/yyyy HH:mm:ss a z</option>
+
+                                 </select>
+
+                                 <input id="varchar-size-{{column.columnName}}" class="displayNone" required>
+
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+
+               <div class="col-12 my-4 p-0 file_fields_outer commentMar " *ngIf="showPreview">
+                  <div class="file_fields_list border border-medium p-1">
+                     <table cellpadding="0" cellspacing="0" border="0" class="table table-bordered m-0">
+                        <thead>
+                           <tr id="previewHeader">
+                              <th *ngFor="let column of previewTableHeader">{{column}}</th>
+                           </tr>
+                        </thead>
+                        <tbody id="previewBody">
+                           <tr *ngFor="let column of previewTableBody">
+                              <td class="ellipsis" *ngFor="let body of column">{{body}}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+
+               <div class="col-12 align-items-center row">
+                  <textarea placeholder="Enter flow creation comments"
+                     class="form-control border-medium p-3 mb-4 flow-comments" formControlName="csvComments"></textarea>
+                     <div *ngIf="form.controls.csvComments.touched && !form.controls.csvComments.valid || isFormInvalid && !form.controls.csvComments.valid ">
+                        <div class="requiredField mb-0">
+                           Comments are required
+                        </div>
+                     </div>
+               </div>
+
+               <div class=" data_ingestion_buttons float-right">
+                  <button class="btn btn_darkgray" type="button" title="Reset"
+                     (click)="resetFileFields()">Reset</button>
+                  <button class="btn btn_darkgray" type="button" title="Reset"
+                     (click)="preview()">{{buttonName}}</button>
+                  <button class="btn btn_perple" type="submit" id="submit-csv" title="Submit">Submit</button>
+               </div>
+            </form>
+         </div>
+      </div>
+      <!-- Right Content End-->
+   </div>
+</section>
+<!-- PAGE CONTENT END -->

@@ -1,0 +1,45 @@
+.page_content,.content_left{
+    height:80vh;
+}
+.left_content{
+    height:100%;
+
+}
+.file_type_select{ position: relative; }
+.file_type_select:before {
+    content: "\f107";
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    text-align: center;
+    font-size: 18px;
+    pointer-events: none;
+    font-family: FontAwesome;
+    background: #8263ab;
+    width: 40px;
+    line-height: 38px;
+    height: 100%;
+    color: #fff;
+}
+.data-frequency-incdrc{ width: 40px; background:#8263ab; color: #fff; position: absolute; right: 0; top:0;  font-size: 0px; height: 36px; padding: 3px 0 0 0;}
+.data-frequency-incdrc a .fa{ color: #fff; font-size: 18px; line-height: 2px; width: 100%; text-align: center; }
+.large-data-control .custom-control-label::before{ top:10px; }
+.large-data-control .custom-control-label::after{ top:10px; }
+.large-data-control .custom-radio .custom-control-input:checked~.custom-control-label::after {
+    background-image: none;}
+
+      .drag-drop-cont{
+          padding-top:0.0rem !important;
+          padding-bottom:0.5rem !important;
+      }
+      @media screen and (min-height: 780px){
+        .page_content,.content_left{
+            height: 84vh !important;
+        }
+        }
+
+        .rightBodyPad{
+            padding: 1.5rem !important;
+            padding-top:0.5rem !important;
+        }

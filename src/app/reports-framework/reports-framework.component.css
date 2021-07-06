@@ -1,0 +1,281 @@
+section {
+    min-height: 500px;
+}
+
+.report-heading {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    text-transform: uppercase;
+}
+
+.filter {
+    min-width: 200px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+/* .filters-container > div:first-child {
+    margin-left: auto;
+} */
+
+.filters-container {
+    margin: 0 1rem;
+    /* padding: 1rem 0; */
+    align-items: center;
+}
+.filters-container .btn:last-child{
+    margin-right: auto;
+    /* height: 30px; */
+    /* margin-top: auto; */
+}
+
+.filters-container .btn {
+    margin-right: 20px;
+}
+
+
+.date-filter {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+.date-filter > div {
+    gap: 10px;
+}
+.date-filter input {
+    width: 150px;
+    height: 30px;
+    border: solid #597c92 1px;
+}
+
+.num-filter {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+.num-filter > div {
+    gap: 10px;
+}
+.num-filter input {
+    width: 150px;
+    height: 30px;
+    border: solid #597c92 1px;
+}
+
+
+.content {
+    margin : 0 1rem;
+    height: 550px;
+    overflow-y: auto;
+}
+/* .filters-container {
+    padding: 1rem;
+} */
+
+/* .card {
+    min-width: 200px;
+    max-width: 400px;
+} */
+.main-cards {
+    overflow: hidden;
+    margin-bottom: 1rem;
+    display: flex;
+}
+
+.main-cards:hover {
+    overflow-x: auto;
+}
+
+.main-cards > div {
+    max-width: 400px;
+    transition: width 1s;
+    -webkit-transition: width 1s;
+}
+
+.main-cards > div:hover {
+    width: auto;
+    max-width: 100%;
+}
+
+
+.main-cards > div:first-child {
+    margin-left: auto;
+}
+
+.main-cards >div:last-child {
+    margin-right: auto;
+}
+.card-layout {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    border: solid 1px;
+    margin-right: 10px;
+    background: white;
+    color: #8263ab;
+    position: relative;
+    height: 100%;
+}
+
+.tabular-data {
+    /* margin-top: 20px; */
+    /* background: white; */
+}
+
+.main-header-label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 0px;
+    text-transform: uppercase;
+}
+.card-layout .subcard-label {
+    /* max-width: 140px; */
+    font-size: 14px;
+}
+
+.sub-card-container {
+    overflow: hidden;
+    /* max-width: 300px; */
+    /* display: inline-block; */
+    white-space: nowrap;
+}
+
+/* .sub-card-container:hover {
+    overflow-x: auto;
+} */
+
+.sub-card-container .sub-card {
+    /* padding-right: 10px; */
+    /* width: 150px; */
+    padding: 0 10px 0px 10px;
+    min-width: 100px;
+    /* max-width: 150px; */
+    display: inline-block;
+    overflow: hidden;
+}
+
+.sub-card-container .sub-card:not(:last-child) {
+    border-right: solid 1px;
+}
+.subcard-value {
+    padding-top: 10px;
+    color: black;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.reports-container > div {
+    /* height: 400px !important; */
+    /* width: 600px !important; */
+    /* overflow: auto; */
+    width: 50%;
+    height: 400px;
+    flex-grow: 1;
+}
+
+.table-container {
+    margin-top: 25px;
+    /* height: 330px; */
+    overflow: hidden;
+}
+
+.table-container {
+    height: 375px;
+}
+
+.tabular-data .table-content{
+    height: 330px;
+    overflow: hidden;
+}
+
+.table-container .table-content:hover{
+    /* height: 350px; */
+    overflow: auto;
+}
+
+/* .table-container:hover {
+    overflow: auto;
+}  */
+.reports-container {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    /* display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+    grid-auto-rows: 400px; */
+}
+
+/* .reports-container > div:nth-child(odd) {
+    margin-right: 20px;
+} */
+.graph .card-layout{
+    height: 380px;
+}
+
+
+
+/* :host ::ng-deep angular2-multiselect .cuppa-dropdown .selected-list {
+    border: solid 1px;
+} */
+
+:host ::ng-deep .custom-class .cuppa-dropdown {
+    border: solid 1px;
+    /* width: 200px; */
+}
+
+:host ::ng-deep .custom-class .c-btn {
+    max-height: 30px;
+    min-height: 30px;
+}
+
+:host ::ng-deep .custom-class .selected-list .c-list .c-token .c-remove svg {
+    fill: black;
+}
+
+:host ::ng-deep .custom-class .c-list .c-token {
+background: #5f7c93;
+}
+
+:host ::ng-deep .custom-class .c-list .c-token .c-label {
+    color: white;
+}
+
+:host ::ng-deep .c-label {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100px;
+}
+
+:host ::ng-deep .custom-class .cuppa-dropdown .selected-list .c-btn .clear-all {
+    display: none !important;
+}
+
+:host ::ng-deep .custom-class .cuppa-dropdown .selected-list .c-btn {
+    background-color: white;
+}
+
+:host ::ng-deep .ngx-slider .ngx-slider-bar {
+    background: #597c92 !important;
+}
+
+/* ::-webkit-datetime-edit { padding: 1em; } */
+/* ::-webkit-datetime-edit-fields-wrapper { background: silver; } */
+::-webkit-datetime-edit-text { color: #597c92; }
+::-webkit-datetime-edit-month-field { color: #597c92; }
+::-webkit-datetime-edit-day-field { color: #597c92; }
+::-webkit-datetime-edit-year-field { color: #597c92; }
+::-webkit-inner-spin-button { display: none; }
+/* ::-webkit-calendar-picker-indicator { background: orange; } */
+
+.input-field-seperator
+{
+   font-size: 24px;
+}

@@ -1,0 +1,80 @@
+<div class="row page-heading-container">
+  <div class="col-md-12">
+    <h2 class="page-heading">ADAS</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 chart" *ngIf="data1?.length>0">
+      <google-chart #chart [title]="'Acceleration With Respect To Time'" [type]="'LineChart'" [data]="data1"
+        [options]="options1">
+      </google-chart>
+  </div>
+  <div class="col-md-6" *ngIf="data2?.length>0">
+    <google-chart #chart [title]="'Speed With Respect To Time'" [type]="'LineChart'" [data]="data2" [options]="options2">
+    </google-chart>
+  </div>
+  <div class="clearfix"></div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <!-- <agm-map 
+    [latitude]="lat"
+    [longitude]="lng"
+    [zoom]="zoom" (mapReady)="onMapReady($event)">
+  </agm-map> -->
+    <agm-map [latitude]="initLat" [longitude]="initLng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="true"
+      [fullscreenControl]="true" (mapClick)="mapClicked($event)" style="width:100%;height:320px;">
+      <agm-polyline>
+        <ng-container *ngFor="let m of coordinates; first as isFirst; last as isLast">
+          <agm-polyline-point [latitude]="m.latitude" [longitude]="m.longitude">
+          </agm-polyline-point>
+          <agm-marker *ngIf="isFirst" (markerClick)="clickedMarker(m.label, i)" [latitude]="m.latitude"
+            [longitude]="m.longitude">
+            <agm-info-window *ngIf="isFirst" isOpen="true">
+              <strong>{{m.timeStamp*1000|date:'medium'}}</strong>
+            </agm-info-window>
+          </agm-marker>
+          <agm-marker *ngIf="pointer == m" [latitude]="pointer.latitude" [longitude]="pointer.longitude">
+            <agm-info-window isOpen="true">
+              <strong>{{pointer.timeStamp*1000|date:'medium'}}</strong>
+            </agm-info-window>
+          </agm-marker>
+          <agm-marker *ngIf="isLast" (markerClick)="clickedMarker(m.label, i)" [latitude]="m.latitude"
+            [longitude]="m.longitude">
+            <agm-info-window *ngIf="isLast" isOpen="true">
+              <strong>{{m.timeStamp*1000|date:'medium'}}</strong>
+            </agm-info-window>
+          </agm-marker>
+        </ng-container>
+      </agm-polyline>
+    </agm-map>
+  </div>
+  <div class="col-md-6">
+    <!-- <div style="width:730px;height:320px;"> -->
+    <!-- <angular-image-slider
+  [autoRotate]="false"
+  [autoRotateAfter]="5000"
+  [autoRotateRight]="true"
+  [(images)]="imagesUrl"
+></angular-image-slider> -->
+    <div class="image">
+      <img [src]="imgUrl" class="images w-100" style="height:265px;">
+      <br>
+      <br>
+      <div class="slidecontainer">
+        <input type="range" min="0" [max]="imgData.length-1" [(ngModel)]="rangeVal" class="slider w-100" id="myRange"
+          (input)="showVal($event.target.value)" (change)="showVal($event.target.value)">
+      </div>
+      <p>TimeStamp
+        <span id="imageTimeStamp"></span>
+      </p>
+    </div>
+    <!-- </div> -->
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div id="lidar-box" #lidarbox></div>
+  </div>
+</div>

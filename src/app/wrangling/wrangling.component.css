@@ -1,0 +1,144 @@
+.floaty{
+    float:left  !important;
+    pointer-events: none;
+}
+.ScrollStyle
+{
+    max-height: 500px;
+    overflow-y: auto;
+    
+    
+}
+.flow-comments{ font-size: 15px; resize: none; height: 90px; }
+.file_fields_outer{ max-height: 500px; overflow-y: hidden; }
+.file_fields_outer:hover{overflow-y: auto;  scrollbar-color:#8263ab ;scrollbar-width: thin;}
+.file_fields_list table tr th { background:#8263ab; color: #fff; font-size: 15px; font-weight: normal; border:2px solid #fff; padding:10px 20px; font-weight: normal;vertical-align: top }
+/* .file_fields_list table tr th :hover {
+    background:#ffa; color: #fff; font-size: 15px; font-weight: normal; border:2px solid #fff; padding:10px 20px; font-weight: normal;vertical-align: top 
+    
+} */
+.file_fields_list table tr td  {
+    background:#ffa; color: #fff; font-size: 15px; font-weight: normal; border:2px solid #fff; padding:10px 20px; font-weight: normal;vertical-align: top 
+    
+}
+.file_fields_list table tr td{ background:#eef2f4; color: #8263ab; font-size: 14px; font-weight: normal; border:2px solid #fff; padding:8px 20px;vertical-align: top }
+.file_fields_list table tr td select{ background:transparent; border:none;  width: 100%; color: #8263ab; }
+.large-data-control .custom-control-label::before{ top:10px; }
+.large-data-control .custom-control-label::after{ top:10px; }
+.large-data-control .custom-radio .custom-control-input:checked~.custom-control-label::after {
+    background-image: none;}
+
+    .bs-example .card-header button{ padding: 3px 5px 0 5px; min-height: inherit;}
+.bs-example .card-header button.btn-link:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: transparent;
+    border-color: transparent;
+}
+.bs-example .card-header button.btn-link.focus, .bs-example .card-header button.btn-link:focus {
+    text-decoration: none;
+    border-color: transparent;
+    box-shadow: none;
+}
+.bs-example .card{ margin: 3px 0; }
+.bs-example .card-header .custom-control{ display: inline-block; }
+.bs-example .card-header .custom-control-label::before{border: 2px solid rgba( 95, 124, 147, 0.5) !important;} 
+.bs-example .card-header .custom-control-label{ vertical-align: top }
+.bs-example .card-header .custom-control-label::after{ border: 2px solid  rgba( 255, 255, 255, 1) !important;}
+.bs-example.wrangling-filter-accordin .card-header h2{ font-size: 18px; font-weight: normal; }
+.bs-example.wrangling-filter-accordin .card-header button {
+    padding: 0;
+    min-height: inherit;
+    border:none;
+}
+
+.wrangling-filter-accordin  .large-data-control .custom-control-label::after {
+    top: 0px;
+}
+.wrangling-filter-accordin .large-data-control .custom-control-label::before {
+    top: 0;
+}
+
+.wrangling-filter-accordin .custom-control-label {
+    margin-bottom: 0;
+    font-size: 16px;
+}
+.wrangling-filter-accordin .custom-control {
+    padding-left: 1.75rem;
+}
+
+.wrangling-filter-accordin .large-data-control{ border-bottom: 1px solid  rgba( 95, 124, 147, 0.3) !important; }
+.action-log-label:after{
+    content: "";
+    width: 100%;
+    position: absolute;
+    background: rgba( 95, 124, 147, 0.3);
+    height: 1px;
+    top: 50%;
+    margin: 0px 5px
+}
+.action-log-cont ul{ margin:10px 0; padding: 0; list-style-type: none }
+.action-log-cont ul li{ background: #edf0f4; position: relative; padding: 6px 20px; border-radius: 20px; color: #5f7c93; display: inline-block; margin: 5px; }
+.action-log-cont ul li a{ position: absolute; right: 0; top: -8px; color: #5f7c93; font-size: 20px; }
+.bs-example .card{ margin: 3px 0; }
+.bs-example .card-header .custom-control{ display: inline-block; }
+.bs-example .card-header .custom-control-label::before{border: 2px solid rgba( 95, 124, 147, 0.5) !important;} 
+.bs-example .card-header .custom-control-label{ vertical-align: top }
+.bs-example .card-header .custom-control-label::after{ border: 2px solid  rgba( 255, 255, 255, 1) !important;}
+.bs-example .card-header {
+    padding: 5px 12px;
+    margin-bottom: 0;
+    background-color: #8263ab;
+    border: 1px solid #8263ab;
+    border-radius: 0;
+    color: #fff;
+}
+.bs-example .card-header button{ padding: 3px 5px 0 5px; min-height: inherit;}
+.bs-example .card-header button.btn-link:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: transparent;
+    border-color: transparent;
+}
+.bs-example .card-header button.btn-link.focus, .bs-example .card-header button.btn-link:focus {
+    text-decoration: none;
+    border-color: transparent;
+    box-shadow: none;
+}
+.rightCont{
+    padding:1rem !important;
+}
+.marTop{
+    margin-top:1rem !important;
+} 
+.highlight {
+    border-top:2px solid black !important;
+    border-right: 3px solid black !important;
+    border-left: 3px solid black !important; 
+}
+
+.item
+{
+    align-self: stretch;
+}
+
+.preview
+{
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.file_fields_list .ScrollStyle table tr th:hover
+{
+    cursor: pointer;
+}
+
+.text-link {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.collapse_btn
+{
+    cursor: pointer;
+}

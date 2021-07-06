@@ -1,0 +1,391 @@
+<section class="page_content">
+  <div class="row">
+
+    <!-- Left Content Open-->
+    <div class="col-lg-4 col-md-6 col-12 pr-0 content_left">
+      <div class="left_content">
+        <div class="bg_darkgray p-3">
+          <div class="row align-items-center">
+            <div class="col-sm-6 col-12 mb-2 mb-sm-0 text-center text-sm-left ">
+              <h3 class="text_lightgray mb-0 pl-md-3 pl-0">Wrangling</h3>
+            </div>
+            <div class="col-sm-6 col-12 mb-2 mb-sm-0 text-center text-sm-right">
+              <h4 class="text-white mb-0"><a [routerLink]="['/lineage']" [queryParams]="{ flowId:flowId, projectName: projectName}"
+                  class="text-white"><i class="fa fa-angle-left" aria-hidden="true"></i> Back</a></h4>
+            </div>
+          </div>
+        </div>
+        <div class="px-4 py-4">
+
+          <div class="scroll_outer">
+            <div class="scroll_inner">
+              <!-- Wrangling Filter Open -->
+              <div class="col-12 p-0">
+                <div class="bs-example wrangling-filter-accordin">
+                  <div class="accordion" id="accordionExample">
+                    <div class="card border-0" *ngIf="isFind">
+                      <div class="card-header" id="headingOne">
+                        <h3 class="mb-0">
+                          Find & Replace
+                          <button type="button" class="btn btn-link collapsed float-right" data-toggle="collapse"
+                            data-target="#collapseOne" [disabled]="findDiable"><i
+                              class="fa fa-plus-circle font22 collapse_btn" aria-hidden="true"></i></button>
+
+                        </h3>
+
+                      </div>
+                      <div id="collapseOne" class="collapse border border-medium " aria-labelledby="headingOne"
+                        data-parent="#accordionExample">
+
+                        <div class="card-body p-3 rounded-0 drag-drop-cont">
+                          <div class=" p-1 col-xs-12 row ">
+                            <div class="form-group col-xs-3 ">
+                              <div class="">Current value</div>
+                              <div class=""><input type="text" id="filtervalue" name="filter" checked
+                                  [(ngModel)]="currentValue" name="currentValue" /></div>
+                            </div>
+                            &nbsp;&nbsp;&nbsp;
+                            <div class=" form-group col-xs-3 ">
+                              <div class=" ">Replace With</div>
+                              <div class=""><input type="text" id="filtervalue" name="filter" checked
+                                  [(ngModel)]="replaceValue" name="replaceValue" /></div>
+                            </div>
+                            <div class=" form-group  col-xs-3 ">
+                              <div class="">New Dataset Name</div>
+                              <div class=""><input type="text" id="filtervalue" name="filter" checked
+                                  [(ngModel)]="datasetName" name="datasetName" /></div>
+                            </div>
+                          </div>
+
+
+                          <div class="form-group">
+                            <button class="btn btn-lg btn-default btn-md" (click)="findAndreplace()">submit</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card border-0" *ngIf="isDateFilter">
+                      <div class="card-header" id="headingTwo">
+                        <h3 class="mb-0">
+                          Date Filter
+                          <button type="button" class="btn btn-link float-right" data-toggle="collapse"
+                            data-target="#collapseTwo" [disabled]="dFilterDisable"><i
+                              class="fa fa-plus-circle font22 collapse_btn" aria-hidden="true"></i></button>
+                        </h3>
+                      </div>
+                      <div id="collapseTwo" class="collapse border border-medium" aria-labelledby="headingTwo"
+                        data-parent="#accordionExample">
+                        <div class="card-body p-3 rounded-0 drag-drop-cont">
+                          <div class="p-1 col-xs-12 row">
+                            <div class="form-group col-xs-3  ">
+                              <div class="">From Date</div>
+                              <div class=""><input type="date" id="filtervalue" name="filter" checked
+                                  [(ngModel)]="fromDate" name="fromDate" /></div>
+                            </div>
+                            &nbsp;&nbsp;
+                            <div class="form-group col-xs-3 ">
+                              <div class="">To Date</div>
+                              <div class=""><input type="date" id="filtervalue" name="filter" checked
+                                  [(ngModel)]="toDate" name="toDate" /></div>
+                            </div>
+                            <div class="form-group col-xs-3">
+                              <label for="">New Dataset Name</label>
+                              <input type="text" class="form-control" id="" placeholder="New Dataset Name"
+                                [(ngModel)]="newDFname">
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <div class=""><button class="btn btn-lg btn-default btn-md"
+                                (click)="Datefilter()">Submit</button></div>
+                          </div>
+                        </div>
+
+
+                      </div>
+
+                    </div>
+                    <div class="card border-0" *ngIf="isNumFilter">
+                      <div class="card-header" id="headingThree">
+                        <h3 class="mb-0">
+                          Number Filter
+                          <button type="button" class="btn btn-link collapsed float-right" data-toggle="collapse"
+                            data-target="#collapseSix" [disabled]="nFilterDisable"><i
+                              class="fa fa-plus-circle font22 collapse_btn" aria-hidden="true"></i></button>
+                        </h3>
+
+                      </div>
+                      <div id="collapseSix" class="collapse border border-medium " aria-labelledby="headingThree"
+                        data-parent="#accordionExample">
+                        <div class="card-body p-3 rounded-0 drag-drop-cont">
+                          <div class="p-1 col-xs-12 row">
+                            <div class="form-group col-xs-3 ">
+                              <div class="  ">From</div>
+                              <div class=""><input type="text" id="filtervalue" name="filter" checked
+                                  [(ngModel)]="fromNumber" name="fromNum" /></div>
+                            </div>
+                            &nbsp;&nbsp;
+                            <div class=" form-group col-xs-3">
+                              <div class=" ">To</div>
+                              <div class=""><input type="text" id="filtervalue" name="filter" checked
+                                  [(ngModel)]="toNumber" name="inNum" /></div>
+                            </div>
+                            <div class="form-group col-xs-3 ">
+                              <div class="">New Dataset Name</div>
+                              <div class=""><input type="text" id="filtervalue" name="filter" checked
+                                  [(ngModel)]="dataName" name="dataName" /></div>
+                            </div>
+                          </div>
+                          <div class=" form-group ">
+                            <button class="btn btn-lg btn-default btn-md" (click)="numFilter()">submit</button>
+                          </div>
+
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card border-0" *ngIf="isScaling">
+                      <div class="card-header" id="headingFour">
+                        <h3 class="mb-0">
+                          Scaling
+                          <button type="button" class="btn btn-link float-right" data-toggle="collapse"
+                            data-target="#collapseThree" [disabled]="scalingDisable"><i
+                              class="fa fa-plus-circle font22 collapse_btn" aria-hidden="true"></i></button>
+
+                        </h3>
+                      </div>
+                      <div id="collapseThree" class="collapse border border-medium" aria-labelledby="headingFour"
+                        data-parent="#accordionExample">
+                        <div class="card-body p-3 rounded-0">
+                          Scaling Card Body
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card border-0" *ngIf="isConcat">
+                      <div class="card-header" id="headingFive">
+                        <h3 class="mb-0">
+                          Concat columns
+                          <button type="button" class="btn btn-link collapsed float-right" data-toggle="collapse"
+                            data-target="#collapseFive" [disabled]="concatDisable"><i
+                              class="fa fa-plus-circle font22 collapse_btn" aria-hidden="true"></i></button>
+
+                        </h3>
+
+                      </div>
+                      <div id="collapseFive" class="collapse border border-medium " aria-labelledby="headingFive"
+                        data-parent="#accordionExample">
+                        <div class="card-body p-3 rounded-0 drag-drop-cont">
+
+                          <div class="p-0 col-xs-12 row ">
+                            <div class="form-group col-xs-3">
+                              <div class="">Input Column</div>
+                              <div class=""><input class="form-control " type="text" id="filtervalue" name="filter"
+                                  checked [(ngModel)]="inputColumn" readonly name="fromNum" maxlength="20" size="20" />
+                              </div>
+                            </div>
+                            &nbsp;&nbsp;
+                            <div class="form-group col-xs-3">
+                              <div class=" ">Select Column</div>
+                              <div class="">
+                                <select class="form-control" [(ngModel)]="concatColumn" name="concatColumn"
+                                  placeholder="select column">
+                                  <option>select column to concat</option>
+                                  <option *ngFor="let data of metaData">{{data.COLUMN_NAME}}</option>
+                                </select></div>
+                            </div>
+                          </div>
+                          <div class="p-0 col-xs-12 row ">
+                            <div class="form-group col-xs-3">
+                              <div class=" ">Delimiter To Use</div>
+                              <div class=""><input class="form-control" type="text" id="filtervalue" name="filter"
+                                  checked [(ngModel)]="delimiter" name="delimiter" /></div>
+                            </div>
+                            &nbsp;&nbsp;
+                            <div class="form-group col-xs-3">
+                              <div class="">Output Columns</div>
+                              <div class="">
+                                <input class="form-control" type="text" id="filtervalue" name="filter" checked
+                                  [(ngModel)]="ouputCol" name="ouputCol" />
+                              </div>
+                            </div>
+                            <div class="form-group col-xs-3">
+                              <div class="">New Table Name</div>
+                              <div class=""><input class="form-control " type="text" id="filtervalue" checked
+                                  [(ngModel)]="newConcat" name="fromNum" maxlength="20" size="20" /></div>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <div class=""><button class="btn btn-lg btn-default btn-md"
+                                (click)="concatColumns()">Submit</button></div>
+
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                    <!--Dummy options start-->
+                    <div class="card border-0">
+                      <div class="card-header">
+                        <h3 class="mb-0">
+                          Range
+                          <button type="button" class="btn btn-link collapsed float-right" [disabled]="true"><i
+                              class="fa fa-plus-circle font22 collapse_btn" aria-hidden="true"></i></button>
+                        </h3>
+                      </div>
+                    </div>
+                    <div class="card border-0">
+                      <div class="card-header">
+                        <h3 class="mb-0">
+                          Random
+                          <button type="button" class="btn btn-link collapsed float-right" [disabled]="true">
+                            <i class="fa fa-plus-circle font22 collapse_btn" aria-hidden="true">
+                            </i>
+                          </button>
+                        </h3>
+                      </div>
+                    </div>
+                    <div class="card border-0">
+                      <div class="card-header">
+                        <h3 class="mb-0">
+                          Sample
+                          <button type="button" class="btn btn-link collapsed float-right" [disabled]="true">
+                            <i class="fa fa-plus-circle font22 collapse_btn" aria-hidden="true">
+                            </i>
+                          </button>
+                        </h3>
+                      </div>
+                    </div>
+                    <!--Dummy options end-->
+
+                    <div class="card border-0" *ngIf="isMetadata">
+                      <div class="card-header" id="headingSix">
+                        <h3 class="mb-0">
+                          Metadata Summary
+                          <button type="button" class="btn btn-link float-right" data-toggle="collapse"
+                            data-target="#collapseFour" [disabled]="metaDtataDisable"><i
+                              class="fa fa-plus-circle font22 collapse_btn" aria-hidden="true"></i></button>
+
+                        </h3>
+                      </div>
+                      <div id="collapseFour" class="collapse border border-medium " aria-labelledby="headingSix"
+                        data-parent="#accordionExample">
+                        <div class="card-body p-3 rounded-0">
+                          <div class="px-0 py-0 metadata-summarty-details">
+                            <div class="col-12 p-0 border-bottom mb-3">
+                              <div class="row">
+                                <div class="col-md-6 col-12 mb-3">
+                                  ColumnName: {{columnMetadata["COLUMN_NAME"]}}
+                                </div>
+                                <div class="col-md-6 col-12  mb-3">
+                                  Sample record: {{columnMetadata["sampledata"]}}
+                                </div>
+                                <div class="col-md-6 col-12  mb-3">
+                                  Null percentage: {{columnMetadata["nullPercent"]}}
+                                </div>
+                                <div class="col-md-6 col-12  mb-3">
+                                  Size: {{columnMetadata["COLUMN_SIZE"]}}
+                                </div>
+                                <div class="col-md-6 col-12  mb-3">
+                                  Type_name: {{columnMetadata["TYPE_NAME"]}}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              <!-- Wrangling Filter End -->
+
+              <!-- Wrangling Action Log Open -->
+              <div class="col-12 my-4 px-0 action-log-cont" *ngIf="enableLogs">
+                <label class="action-log-label position-relative w-100">Action Log</label>
+
+                <ul>
+                  <li *ngIf="find">
+                    Find & Replace<a href="javascript:void(0)"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                  </li>
+                  <li *ngIf="filterDate">
+                    Date Filter<a href="javascript:void(0)"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                  </li>
+                  <li *ngIf="filterNum">
+                    Number Filter<a href="javascript:void(0)"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                  </li>
+                  <li *ngIf="concat">
+                    Concat Columns<a href="javascript:void(0)"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                  </li>
+                  <li *ngIf="isscaling">
+                    Scaling<a href="javascript:void(0)"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+                  </li>
+                </ul>
+              </div>
+              <!-- Wrangling Action Log End -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Left Content End-->
+    <!-- Right Content Open-->
+    <div class="col-lg-8 col-md-6 col-12 pl-0 content_right">
+      <div class="p-3 text-right border-bottom border-bottom-dark">
+        <a class="link_darkgray pr-3  border-dark floaty" href="#!">
+          <i class="fa fa-file"></i> {{previewTableName}}
+        </a>
+        <a class="link_darkgray ml-3">
+          <i class="fa fa-sitemap"></i> Go to project flow
+        </a>
+      </div>
+      <div class="p-3 p-sm-5 rightCont">
+        <div class="col-12  p-0">
+
+          <div class="col-12  ">
+            <div class="file_fields_list">
+
+              <div class="ScrollStyle">
+                <table cellpadding="0" cellspacing="0" border="0" class="table m-0" id="datatable">
+                  <thead>
+                    <tr *ngFor="let headers of previewData |slice:0:1">
+                      <th class="item text-uppercase" *ngFor="let col of headers; let i=index;"
+                       (click)="selectColumn(col,i)"> {{col}}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of previewData | slice:1 |paginate: { itemsPerPage: 20, currentPage: p };  let i =index">
+                      <ng-container *ngIf="tlevel !== 23">
+                      <td class="preview ellipsis" *ngFor="let data of row ;let i=index">{{data}}</td>
+                      </ng-container>
+                      <ng-container *ngIf="tlevel == 23">
+                        <td class="preview ellipsis" *ngFor="let data of row ;let i=index" 
+                        [ngClass]="{'text-link':i==0}" (click)="loadFile(data)">
+                          {{data}}</td>
+                        </ng-container>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="col-12 navigation-cont text-center mt-4 mb-3">
+              <pagination-controls maxSize="7" directionLinks="true" autoHide="true" responsive="true" previousLabel=""
+                nextLabel="" class="my-pagination rightFloat" (pageChange)="p = $event"></pagination-controls>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <!-- Right Content End-->
+  </div>
+</section>
+<!-- PAGE CONTENT END -->
+
+<!--FOOTER OPEN-->
+
+<!-- FOOTER END -->

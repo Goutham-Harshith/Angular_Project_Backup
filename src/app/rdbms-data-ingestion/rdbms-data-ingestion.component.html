@@ -1,0 +1,328 @@
+<!-- PAGE CONTENT OPEN -->
+<section class="page_content">
+  <div class="row">
+    <!-- Left Content Open-->
+    <div class="col-lg-4 col-md-6 col-12 pr-0 content_left">
+      <app-page-left-cont></app-page-left-cont>
+    </div>
+    <!-- Left Content End-->
+    <!-- Right Content Connection_part Open-->
+    <div *ngIf="rdbmsSelect == 1" class="col-lg-8 col-md-6 col-12 pl-0 content_right">
+      <div class="p-3 px-sm-5 py-sm-4 rightBodyPad">
+        <div class="col-12 px-5 pb-2 padTopZero">
+          <form name="modalForm" [formGroup]="form">
+            <div class="row">
+            <div class="col-12 px-0 mb-2 d-flex">
+              <div class="col-6 align-items-center px-5">
+                <div class="row">
+                  <div class="col-12">
+                    <p class="staging-button-head">Selection Type :</p>
+                  </div>
+                </div>
+                <div class="d-flex options">
+                  <div class="col-4 pl-4">
+                    <div class="radio">
+                      <label class="mb-0">
+                        <input class="form-check-input" type="radio" checked="checked" [(ngModel)]="selectionType"
+                          [ngModelOptions]="{standalone: true}" value="fileUpload" />
+                        <span class="staging-bucket-raw">File Upload</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="radio">
+                      <label class="mb-0">
+                        <input class="form-check-input" type="radio" [(ngModel)]="selectionType" value="manualUpload"
+                          [ngModelOptions]="{standalone: true}" />
+                        <span class="staging-bucket-raw">Manual selection</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6" *ngIf="selectionType == 'fileUpload'">
+                <a class="download-xlsx pt-3" href="assets/files/ingestionTemplate.xlsx" download>
+                  <img src="assets/images/downloadFile.png" width="30" alt="download xlsx file">
+                 <span class="pt-1">ingestionTemplate.xlsx</span>
+                </a>
+              </div>
+            </div>
+             <div class="col-12">
+              <div class="col-12 drag-drop-cont px-5 mb-2" *ngIf="selectionType == 'fileUpload'">
+                <h2 class="d-inline-block mb-0"><img src="assets/images/drag_drop_icon.png" width="60"
+                    class="d-inline-block align-middle" />{{filePlaceHolder}}</h2>
+                <div class="upload-btn-wrapper float-right mt-2">
+                  <label for="browser" class="btn">Browse</label>
+                  <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="browser" name="myfile"
+                    (change)="uploadFile($event.target.files)" />
+                </div>
+              </div>
+             </div>
+              
+              <div class="col-lg-6 col-md-12 px-5 mb-2">
+                <div class="form-group">
+                  <label class="fon15">Database Driver Name</label>
+                  <div class="select_custom">
+                    <select class="form-control" id="inputdatabaseDriver" formControlName="driverClass"
+                      required="required">
+                      <option value="com.mysql.cj.jdbc.Driver">com.mysql.cj.jdbc.Driver</option>
+                      <option value="com.microsoft.sqlserver.jdbc.SQLServerDriver">
+                        com.microsoft.sqlserver.jdbc.SQLServerDriver</option>
+                      <option value="oracle.jdbc.driver.OracleDriver">oracle.jdbc.driver.OracleDriver</option>
+                      <option value="COM.ibm.db2.jdbc.net.DB2Driver">COM.ibm.db2.jdbc.net.DB2Driver</option>
+                      <option value="org.apache.hive.jdbc.HiveDriver">org.apache.hive.jdbc.HiveDriver</option>
+                      <option value="org.postgresql.Driver">org.postgresql.Driver</option>
+                    </select>
+                    <div *ngIf="driverClass.touched && driverClass.invalid">
+                      <div class="requiredField" *ngIf="driverClass.errors.required && driverClass.touched">driverClass
+                        is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-12 px-5 mb-2">
+                <div class="form-group">
+                  <label class="fon15">Database URL</label>
+                  <input type="text" class="form-control" name="databaseUrl" id="inputdatabaseUrl"
+                    formControlName="dbUrl" value="" required="required" pattern="" title="">
+                  <div *ngIf="dbUrl.touched && !dbUrl.valid">
+                    <div *ngIf="dbUrl.touched && !dbUrl.valid"></div>
+                    <div class="requiredField" *ngIf="dbUrl.errors.required && dbUrl.touched && !dbUrl.valid">URL is
+                      required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-12 px-5 my-2">
+                <div class="form-group">
+                  <label class="fon15">Database Port</label>
+                  <input type="text" class="form-control" name="databasePort" id="inputdatabasePort"
+                    formControlName="dbPort" value="" required="required" pattern="" title="">
+                  <div *ngIf="dbPort.touched && !dbPort.valid">
+                    <div class="requiredField" *ngIf="dbPort.errors.required && dbPort.touched && !dbPort.valid">port is
+                      required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-12 px-5 my-2">
+                <div class="form-group">
+                  <label class="fon15">Database Name</label>
+                  <input type="text" class="form-control" name="databaseName" id="inputdatabaseName"
+                    formControlName="dbName" value="" required="required" pattern="" title="">
+                  <div *ngIf="dbName.touched && !dbName.valid">
+                    <div class="requiredField" *ngIf="dbName.errors.required && dbName.touched && !dbName.valid">
+                      *Database Name is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-12 px-5 my-2">
+                <div class="form-group">
+                  <label class="fon15">Database Username</label>
+                  <input type="text" class="form-control" name="databaseUserName" id="inputdatabaseUserName"
+                    formControlName="dbUser" value="" required="required" pattern="" title="">
+                  <div *ngIf="dbUser.touched && !dbUser.valid">
+                    <div class="requiredField" *ngIf="dbUser.errors.required && dbUser.touched && !dbUser.valid">
+                      *Username is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-12 px-5 my-2">
+                <div class="form-group">
+                  <label class="fon15">Database Password</label>
+                  <input type="password" class="form-control" name="databasePassword" id="inputdatabasePassword"
+                    formControlName="dbPassword" value="" required="required" pattern="" title="">
+                  <div *ngIf="dbPassword.touched && !dbPassword.valid">
+                    <div class="requiredField" *ngIf="dbPassword.errors.required">Password is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-12  my-2 px-5" *ngIf="selectionType != 'fileUpload'">
+                <div class="form-group mb-0">
+                  <label class="fon15 pr-5">Database Schema</label>
+                  <a class="reload" (click)="ReloadSchema()"><img class="disInline" src="assets/images/reload.png"
+                      width="23" height="23"></a>
+                </div>
+                <!-- <div class="dropdown"> -->
+                <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems"
+                  [ngModelOptions]="{standalone: true}" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                  (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onItemSelect($event,true)"
+                  (onDeSelectAll)="OnItemDeSelect($event,true)">
+                </angular2-multiselect>
+                <!-- </div> -->
+              </div>
+              <div class="col-lg-6 col-md-6 my-2 px-5">
+                <div class="form-group">
+                  <label class="fon15">Entity Type</label>
+                  <div class="select_custom">
+                    <select class="form-control" id="entityType" formControlName="type" required="required">
+                      <option value="table">Table</option>
+                      <option value="view">View</option>
+                    </select>
+                    <div *ngIf="type.touched && type.invalid">
+                      <div class="requiredField" *ngIf="type.errors.required && type.touched">Entity Type is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="row data_ingestion_buttons px-5">
+          <div class="col-lg-4 col-md-12 px-0">
+          </div>
+          <div class="col-lg-4 col-md-12 pr-0">
+            <button class="btn btn_perple float-left w-100 m-0 " title="Reset"
+              (click)="initRDBMSFields()">Reset</button>
+          </div>
+          <div class="col-lg-4 col-md-12 pr-3" *ngIf="selectionType != 'fileUpload'">
+            <button class="btn btn_perple float-left w-100 m-0 " title="Connect" (click)="submitConnectForm(form.value)"
+              [disabled]="connectDisable">Connect</button>
+          </div>
+          <div class="col-lg-4 col-md-12 pr-3" *ngIf="selectionType == 'fileUpload'">
+            <button class="btn btn_perple float-left w-100 m-0 " title="Connect" (click)="createJobUsingFileUpload(form.value)"
+            [disabled]="!isRdbmsFileuploadFormValid()" >Connect</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="rdbmsSelect == 2 " class="col-lg-8 col-md-6 col-12 pl-0 content_right pb-5 rightBodyPad ">
+      <div class="px-5">
+        <div class="d-flex">
+          <div class="col-4 mr-2 align-items-center row">
+            <label class="mb-0 mr-3">Project Name</label>
+            <input type="text" class="mb-4 form-control" [(ngModel)]="jobName" [readonly]="editFlag"
+              (keyup)="this.validateProjectName.next($event)" />
+            <div *ngIf="projectNameErrorMsg !=''">
+              <div class="requiredField">{{projectNameErrorMsg}}</div>
+            </div>
+          </div>
+          <div class="col-4 mr-2 align-items-center row select-dropdown">
+            <label class="mb-0 mr-3">Destination DB</label>
+            <select class="mb-4 form-control" id="inputdatabaseName" [(ngModel)]="destinationDb" value=""
+              required="required">
+              <option value="psql">Postgres</option>
+              <option value="hive">Hive</option>
+              <option value="snowflake">Snowflake</option>
+            </select>
+          </div>
+          <div class="col-4 search-schedular-rgt d-flex justify-content-end mt-2 pt-1 px-4">
+            <a (click)="backConnect()" href="javascript:void(0)" class="text_perple"><i class="fa fa-angle-left"
+                aria-hidden="true"></i> Back to connect</a>
+          </div>
+        </div>
+      </div>
+      <div class="px-5">
+        <div class="row ml-0 mb-4">
+          <div class="col-md-12 col-12 p-0">
+            <div class="search-tablename position-relative">
+              <input type="text" class="form-control" [(ngModel)]="tableSearchText"
+                placeholder="Select by table name" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div *ngIf="isError" class="row px-5">
+        <div class="col-12">
+          <div class="success-failure-message">
+            <app-success-and-failure [status]="status" [message]="message"></app-success-and-failure>
+          </div>
+        </div>
+      </div> -->
+      <div class="col-12 mt-4 px-5 marginTopmain">
+        <div class="bs-example">
+          <div class="accordion" id="accordionExample">
+            <div class="card border-0"
+              *ngFor="let table of tableList|searchFilter:tableSearchText:['entityName','schema'] | paginate: pageConfig; let i =index">
+              <div class="card-header">
+                <h2 class="mb-0">
+                  <div class="custom-control custom-checkbox marginTop3">
+                    <input type="checkbox" name="table-check" class="custom-control-input" id="{{table.entityName}}"
+                      [(ngModel)]="table.allCloumnsChecked" (ngModelChange)="checkAllColumns(table, $event)" disabled>
+                    <label class="custom-control-label marg2"
+                      for="{{table.entityName}}">{{table.schema}}.{{table.entityName}}</label>
+                  </div>
+                  <a role="button" class="btn btn-link collapsed float-right p-0" data-toggle="collapse"
+                    data-target="#src_{{getParsedName(table.entityName)}}"
+                    href="#src_{{getParsedName(table.entityName)}}"><i class="fa fa-plus-circle fon18 collapse_btn p-2"
+                      (click)="fetchColumns(table, $event)" aria-hidden="true"></i></a>
+                  <div class="float-right text-white rdbms_target_cont mr-4">
+                    <input id="dest_{{getParsedName(table.entityName)}}"
+                      class="col-input target-table-name float-right form-control" [(ngModel)]="table.destName"
+                      type="text" value="{{table.entityName}}_dest" />
+                  </div>
+                </h2>
+              </div>
+              <div id="src_{{getParsedName(table.entityName)}}" class="collapse border border-medium "
+                aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body p-3 rounded-0">
+                  <div class="lineageTree-list">
+                    <div class="row">
+                      <input type="text" class=" form-control wid25per" [(ngModel)]="table['columnSearchText']"
+                        placeholder="Search columns" />
+                      <table cellpadding="0" cellspacing="0" border="0" class="table m-0">
+                        <thead>
+                          <tr>
+                            <th>Column name</th>
+                            <th>Data type</th>
+                            <th>Conditions</th>
+                            <th>Target Column name</th>
+                            <th>Partition Column</th>
+                            <th>Target Data type</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr
+                            *ngFor="let column of table.columnsList | searchFilter:table['columnSearchText']:['entityName','dtype'];  let i = index">
+                            <td>
+                              <div>
+                                <input type="checkbox" id="{{table.entityName}}_{{i}}" name="example1"
+                                  [(ngModel)]="column.checked" (ngModelChange)="checkColumns(table, column, $event)">
+                                <label class="text_darkgray id_name"
+                                  for="{{table.entityName}}_{{i}}">{{column.entityName}}</label>
+                              </div>
+                            </td>
+                            <td>{{column.dtype}}</td>
+                            <td><input type="text" placeholder="Enter Condition"
+                              [(ngModel)]="column.condition" value="{{column.condition}}" /></td>
+                            <td><input type="text" value="{{column.entityName}}" readonly /></td>
+                            <td class="text-center"><input type="radio" [disabled]="!column.dtype.includes('NUM')"
+                                name="partitionCol_{{table.entityName}}" [(ngModel)]="table.partitionCol"
+                                value="{{column.entityName}}"> </td>
+                            <td><input type="text" value="{{column.dtype}}" readonly /></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 px-5 navigation-cont  mt-4 mb-3">
+        <div class="col-8 navigation-cont  mt-4 mb-3">
+        </div>
+        <div class="col-4 navigation-cont text-center mt-4 mb-3">
+          <div class="row pagination-row noMargin-left-right">
+            <pagination-controls maxSize="7" directionLinks="true" autoHide="true" responsive="true"
+              *ngIf="tableList&&tableList.length>0" previousLabel="" nextLabel="" class="my-pagination rightFloat"
+              (pageChange)="pageConfig.currentPage = $event"></pagination-controls>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 my-4 marginTopma px-5">
+        <textarea placeholder="Enter flow creation comments" [(ngModel)]="comments"
+          class="form-control border-medium p-3 flow-comments"></textarea>
+      </div>
+      <div class="row data_ingestion_buttons px-3">
+        <div class="col-lg-8 col-md-12 px-0">
+        </div>
+        <div class="col-lg-4 col-md-12 pr-5 py-1">
+          <button class="btn btn_perple float-left w-100 m-0 " title="Submit" (click)="checkVal()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,241 @@
+<!-- PAGE CONTENT OPEN -->
+<section class="page_content">
+  <div class="row">
+    <!-- Left Content Open-->
+    <div class="col-lg-4 col-md-6 col-12 pr-0 content_left">
+      <div class="left_content">
+        <div class="bg_darkgray p-3">
+          <div class="row align-items-center">
+            <div class="col-sm-6 col-12 mb-2 mb-sm-0 text-center text-sm-left ">
+              <h3 class="text_lightgray mb-0 pl-md-3 pl-0">Schedular</h3>
+            </div>
+            <div class="col-sm-6 col-12 mb-2 mb-sm-0 text-center text-sm-right">
+              <h4 class="text-white mb-0"><a href="#!" class="text-white"><i class="fa fa-angle-left"
+                    aria-hidden="true"></i> Back</a></h4>
+            </div>
+          </div>
+        </div>
+        <div class="px-4 py-5 leftPad">
+          <div class="scroll_outer">
+            <div class="scroll_inner">
+              <div class="col-12">
+                <div class="row feild-container" [formGroup]="scheduleJobForm">
+                  <div class="col-lg-12 col-md-12 ">
+                    <div class="form-group">
+                      <label class="fon15 mb-0">Scheduler name</label>
+                      <input type="text" class="border border-dark form-control rounded-0 mb-4" name="schedulerName"
+                        formControlName="schedularName" />
+                      <div
+                        *ngIf="getFormControls().schedularName.touched && getFormControls().schedularName.value == '' || isFormInvalid && getFormControls().schedularName.value == ''">
+                        <div class="requiredField">Scheduler name is required</div>
+                      </div>
+                      <div *ngIf="getFormControls().schedularName.value != '' && getFormControls().schedularName.errors?.message">
+                        <div class="requiredField">{{getFormControls().schedularName.errors?.message}}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                      <label class="fon15 mb-0">Choose a Workflow</label>
+                      <div class="mb-4">
+                        <angular2-multiselect [data]="workflows" formControlName="jobIds"
+                          [settings]="multiDropdownSettings">
+                        </angular2-multiselect>
+                      </div>
+                      <div *ngIf="isFormInvalid && !getFormControls().jobIds.valid">
+                        <div class="requiredField">Select workflow</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 mb-4">
+                    <div class="form-group select-dropdown">
+                      <label class="fon15 mb-0">Schedule at every</label>
+                      <select [(ngModel)]='freqSelected' [ngModelOptions]="{standalone: true}" (change)=chartFrequency()
+                        class="border border-dark form-control rounded-0">
+                        <option *ngFor="let f of frequency" [value]='f.value'>{{f.freq}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div *ngIf='freqSelected==5 ' class="col-lg-12 col-md-12 mb-4">
+                    <div class="form-group select-dropdown">
+                      <label class="fon15 mb-0">Select Date</label>
+                      <select [(ngModel)]='freqMonthSelected' [ngModelOptions]="{standalone: true}"
+                        (change)='freqMonthChange()' class="border border-dark form-control rounded-0">
+                        <option *ngFor="let D of days" [value]='D'>{{D}}</option>
+                        <option *ngIf='currentMonth != 1 || (currentMonth == 1 && isLeapYear) ' value='29'>29</option>
+                        <option *ngIf='currentMonth != 1' value='30'>30</option>
+                        <option
+                          *ngIf='currentMonth == 0 ||  currentMonth == 2 || currentMonth == 4 || currentMonth == 6 || currentMonth == 7 || currentMonth == 9 || currentMonth == 11  '
+                          value='31'>31</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div *ngIf='freqSelected==6 ' class="col-lg-12 col-md-12 mb-4">
+                    <div class="form-group select-dropdown">
+                      <label class="fon15 mb-0">Select Month</label>
+                      <select [(ngModel)]='freqYearMonSelected' [ngModelOptions]="{standalone: true}"
+                        (change)=cronYearly() class="border border-dark form-control rounded-0">
+                        <option *ngFor="let m of months" [value]='m.value'>{{m.month}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div *ngIf='freqSelected==6 ' class="col-lg-12 col-md-12 mb-4">
+                    <div class="form-group select-dropdown">
+                      <label class="fon15 mb-0">Select Date</label>
+                      <select [(ngModel)]='freqYearMonthSelected' [ngModelOptions]="{standalone: true}"
+                        (change)='cronFreqMonth()' class="border border-dark form-control rounded-0">
+                        <option *ngFor="let D of days" [value]='D'>{{D}}</option>
+                        <option *ngIf='freqYearMonSelected != 1 || (freqYearMonSelected == 1 && isLeapYear) '
+                          value='29'>29</option>
+                        <option *ngIf='freqYearMonSelected != 1' value='30'>30</option>
+                        <option
+                          *ngIf='freqYearMonSelected == 0 ||  freqYearMonSelected == 2 || freqYearMonSelected == 4 || freqYearMonSelected == 6 || freqYearMonSelected == 7 || freqYearMonSelected == 9 || freqYearMonSelected == 11  '
+                          value='31'>31</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div *ngIf='freqSelected==4' class="col-lg-12 col-md-12 mb-4">
+                    <div class="form-group select-dropdown">
+                      <label class="fon15 mb-0">Select Week</label>
+                      <select [(ngModel)]='freqWeekSelected' [ngModelOptions]="{standalone: true}"
+                        (change)=cronWeekChange() class="border border-dark form-control rounded-0">
+                        <option *ngFor="let w of weeks" [value]='w.value'>{{w.week}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div *ngIf='freqSelected==3 || freqSelected==4 || freqSelected==5 || freqSelected==6  '
+                    class="col-lg-12 col-md-12 mb-4">
+                    <div class="form-group select-dropdown">
+                      <label class="fon15">Select Hour</label>
+                      <select [(ngModel)]='freqHourSelected' [ngModelOptions]="{standalone: true}"
+                        (change)=cronHourChange() class="border border-dark form-control rounded-0">
+                        <option *ngFor="let H of hours" [value]='H'>{{H}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf='freqSelected==2 || freqSelected==3 || freqSelected==4 || freqSelected==5 || freqSelected==6 '
+                    class="col-lg-12 col-md-12 mb-4">
+                    <div class="form-group select-dropdown">
+                      <label class="fon15">Select Minutes</label>
+                      <select [(ngModel)]='freqMinSelected' [ngModelOptions]="{standalone: true}"
+                        (change)=cronMinChange() class="border border-dark form-control rounded-0">
+                        <option *ngFor="let min of minutes" [value]='min'>{{min}}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6 col-md-12">
+                    <div class="form-group">
+                      <label class="fon15">From</label>
+                      <input type="datetime-local" class="border border-dark form-control rounded-0 mb-4"
+                        [(ngModel)]="startDate" [ngModelOptions]="{standalone: true}" (change)="selectStartDate()"
+                        name="startDate" min="{{minDate | date:'yyyy-mm-dd'}}" />
+                      <div *ngIf="isFormInvalid && !getFormControls().startDate.valid">
+                        <div class="requiredField">Enter start date</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6 col-md-12">
+                    <div class="form-group">
+                      <label class="fon15">To</label>
+                      <input type="datetime-local" class="border border-dark form-control rounded-0 mb-4"
+                        (change)="selectEndDate()" [(ngModel)]="endDate" [ngModelOptions]="{standalone: true}"
+                        name="endDate" />
+                      <div *ngIf="isFormInvalid && !getFormControls().endDate.valid">
+                        <div class="requiredField">Enter end date</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 my-2">
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6 col-12">
+                        <button class="btn btn_perple w-100" title="Reset" (click)="resetFields()">Reset</button>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-12">
+                        <button class="btn btn_perple w-100" title="Submit" (click)="submitScheduler()">Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Left Content End-->
+    <!-- Right Content Open-->
+    <div class="col-lg-8 col-md-6 col-12 pl-0 content_right">
+      <div class="p-3 p-sm-5 rightBodyPad">
+
+        <div class="col-12">
+          <div class="row">
+            <div class="col-md-7 col-12 search-schedular mt-4">
+              <input type="text" class="form-control rounded-0 border-dark" placeholder="Search by name"
+                [(ngModel)]="searchSchedule" />
+            </div>
+            <div class="col-md-5 col-12 search-schedular-rgt d-flex justify-content-end">
+              <div class="row d-flex align-items-center">
+                <div class="col-4 text-center">
+                  <div class="circle_wrap_lg text_green" (click)="resumeJob()"> Resume </div>
+                </div>
+                <div class="col-4 text-center">
+                  <div class="circle_wrap_lg text_darkgray" (click)="suspendJob()"> Suspend </div>
+                </div>
+                <div class="col-4 text-center">
+                  <div class="circle_wrap_lg text_red" (click)="deleteJob()"> Delete </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 mt-2 tabCont">
+          <div class="table-content mb-2">
+            <table cellpadding="0" cellspacing="0" border="0" class="table table-data m-0">
+              <thead>
+                <tr>
+                  <th class="text-center align-middle p-0">
+                    <input id="checkAllFlow" type="checkbox" (change)="checkAll($event.target.checked);">
+                  </th>
+                  <th>Name</th>
+                  <th>ExecStatus</th>
+                  <th>Frequency</th>
+                  <th>StartTime</th>
+                  <th>End Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let data of scheduleJobs|searchFilter : searchSchedule : ['schedulerName']|paginate: { itemsPerPage: pageSize, currentPage: currentPage };">
+                  <td class="text-center align-middle p-0">
+                    <input type="checkbox" (change)="selectSchedule()" [(ngModel)]="data.checked">
+                  </td>
+                  <td>
+                    {{data.schedulerName}}
+                  </td>
+                  <td>{{data.execStatus}}</td>
+                  <td>{{data.frequency}}</td>
+                  <td class="ellipse">{{data.starttime | date:'short'}}</td>
+                  <td class="ellipse">{{data.endtime | date:'short'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-12 page-control">
+            <label name="pageSize">Page Size</label>
+            <input type="number" min="1" [(ngModel)]="pageSize">
+            <pagination-controls (pageChange)="currentPage = $event"
+              *ngIf="scheduleJobs?.length > pageSize && pageSize != null && pageSize != 0"></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Right Content End-->
+  </div>
+</section>
+<!-- PAGE CONTENT END -->

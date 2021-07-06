@@ -1,0 +1,470 @@
+<!-- PAGE CONTENT OPEN -->
+<section class="page_content bg_gray2">
+  <div class="row">
+    <!-- Left Content Open-->
+    <div class="col-lg-4 col-md-6 col-12 pr-0">
+      <div class="bg_lightgray  text-right top_left_header"> </div>
+      <div class="left_content">
+
+        <div class="left-side_cont">
+          <div class="bg_darkgray p-3 ">
+            <div class="row align-items-center">
+              <div class="col-sm-6 col-12 mb-2 mb-sm-0 text-center text-sm-left">
+                <h3 class="text_lightgray left-cont_head">My Projects</h3>
+              </div>
+              <div class="col-sm-6 col-12 mb-2 mb-sm-0 text-center text-sm-right">
+                <h4 class="text-white left-cont_head"><a routerLink="/rdbms-data-ingestion" class="create_job"><i
+                      class="fa fa-plus"></i> Create New Projects</a> </h4>
+              </div>
+            </div>
+          </div>
+          <div class="p-3">
+            <div class="row">
+              <div class="col-lg-6 col-12 form-group">
+                <div class="input-group">
+                  <input type="text" class="form-control project_search" placeholder="Search by Name"
+                    aria-label="Recipient's username" [(ngModel)]="searchJob">
+                  <div class="input-group-append "> <span class="input-group-text project_search"><i
+                        class="fa fa-search"></i></span> </div>
+                </div>
+              </div>
+            </div>
+            <!-- List Wrap Open -->
+            <div class="modal fade" id="logsModal" tabindex="-1" role="dialog" aria-labelledby="myLogsModalLabel"
+              aria-hidden="true" data-backdrop="static" data-keyboard="false">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title content-heading">{{logsHeading}} Logs</h1>
+                    <button type="button" class="close Left" data-dismiss="modal" aria-label="Close"
+                      (click)="resetShowLogs()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="col-12 logs-mode-cont">
+                      <ngx-codemirror [(ngModel)]="logsData" [options]="options"></ngx-codemirror>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="all_project_list">
+              <div *ngFor="let job of jobsList | searchFilter : searchJob : ['name']; let i=index;">
+                <div class="main_job_list" (click)="showSubJobs(job.subjobsList,job.id)">
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-12 col-md-12 col-sm-6 mb-2 mb-xl-0">
+                      <h3 class="ellipsis">{{job.name}}</h3>
+                      <h4 class="ellipsis">{{job.comments}}</h4>
+                    </div>
+                    <div class="col-xl-6 col-lg-12 col-md-12 col-sm-6 text-left text-xl-right">
+                      <h4 class="mb-3">{{job.createdDate | date :'medium'}}</h4>
+                      <h3 class="icons">
+                        <a class="link_darkgray" [routerLink]="['/rdbms-data-ingestion']"
+                          [class.disabled]="job.exStatus == 'STARTED'"
+                          [queryParams]="{ flowId: job.flowId, project : job.name}"><i class="fa fa-plus-circle"
+                            title="Add source"></i></a>
+                        <a class="link_darkgray" [routerLink]="['/lineage']"
+                          [queryParams]="{ flowId: job.flowId, projectName: job.name}"><i class="fa fa-random"
+                            title="Lineage"></i></a>
+                        <a class="link_darkgray" [class.disabled]="job.exStatus == 'STARTED'"><i
+                            class="fa fa-play-circle" (click)="execute(i, job.id)"
+                            [ngClass]="{ 'text-success': job.exStatus === 'SUCCEEDED', 'text-warning': job.exStatus === 'STARTED', 'text-danger': job.exStatus === 'FAILED'}"
+                            title="Execute"></i></a>
+                        <a class="link_darkgray" data-toggle="modal" aria-haspopup="true" aria-expanded="false"
+                          href="#logsModal" (click)="fetchJobLogs(job.id,job.name)" title="Logs"><i
+                            class="fa fa-file-text-o" aria-hidden="true"></i></a>
+                        <a class="link_darkgray"><i class="fa fa-refresh" (click)=" getJobStatus(i,job.id,$event)"
+                            title="Refresh"></i></a>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+                <!-- subjobs -->
+                <div *ngIf="subjobs && job.id==jobid ">
+                  <div class="sub_job_list lineage" *ngFor="let subJob of subJobsList; let j=index;">
+                    <div class="row">
+                      <div class="col-xl-6 col-lg-12 col-md-12 col-sm-6 mb-2 mb-xl-0">
+                        <h3 class="ellipsis">{{subJob.name}}</h3>
+                        <h4 class="ellipsis">{{subJob.comments}}</h4>
+                      </div>
+                      <div class="col-xl-6 col-lg-12 col-md-12 col-sm-6 text-left text-xl-right">
+                        <h4 class="mb-3">{{subJob.createdDate | date :'medium'}}</h4>
+                        <h3 class="icons">
+                          <a class="link_darkgray" [class.disabled]="subJob.exStatus == 'STARTED'"><i
+                              class="fa fa-play-circle" (click)="execute(i, job.id,true,j,subJob.id)"
+                              [ngClass]="{ 'text-success': job.exStatus === 'SUCCEEDED', 'text-warning': subJob.exStatus === 'STARTED', 'text-danger': subJob.exStatus === 'FAILED'}"
+                              title="Execute"></i></a>
+                          <a class="link_darkgray" data-toggle="modal" aria-haspopup="true" aria-expanded="false"
+                            href="#logsModal" (click)="fetchJobLogs(subJob.id,job.name)" title="Logs"><i
+                              class="fa fa-file-text-o" aria-hidden="true"></i></a>
+                          <a class="link_darkgray"><i class="fa fa-refresh" (click)="getJobStatus(i,job.id,$event)"
+                              title="Refresh"></i></a>
+                          <a *ngIf="subJob.nodeTypeId == 1" class="link_darkgray" data-toggle="modal"
+                            href='#RerunOptions' (click)="fileReRunParamSet(subJob.id, subJob.nodeTypeId)">
+                            <i class="fa fa-edit" title="Rerun Options"></i>
+                          </a>
+                          <a *ngIf="subJob.nodeTypeId == 26" class="link_darkgray" data-toggle="modal"
+                            href='#rdbmsRerunOptions' (click)="loadRdbmsRerunCols(subJob.id)">
+                            <i class="fa fa-edit" title="Rerun Options"></i>
+                          </a>
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- subjobs end -->
+              </div>
+            </div>
+            <!-- List Wrap End -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Left Content End-->
+
+
+    <!-- Right Content Open-->
+    <div class="col-lg-8 col-md-6 col-12 pl-0">
+      <div class="p-3 p-sm-5 pad-1">
+        <div class="card-deck card-columns mb-1">
+          <!-- Card Open -->
+          <div class="card">
+            <div class="card-body">
+              <div class="card_heading bg_perple">Datasets</div>
+              <div class="row">
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_perple">{{hiveSourceCount}}</div>
+                    <img src="assets/images/hdfs_icon.png" class="img-fluid">
+                  </div>
+                  <h6 class="text-uppercase">HIVE</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_perple">{{mysqlSourceCount}}</div>
+                    <img src="assets/images/rdbms_icon.png" class="img-fluid">
+                  </div>
+                  <h6 class="text-uppercase">Oracle</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_perple">{{psqlSourceCount}}</div>
+                    <img src="assets/images/rdbms_icon.png" class="img-fluid">
+                  </div>
+                  <h6 class="text-uppercase">PSQL</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_perple">{{fileSourceCount}}</div>
+                    <img src="assets/images/hdfs_icon.png" class="img-fluid">
+                  </div>
+                  <h6 class="text-uppercase">FILE</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_perple">{{hdfsSourceCount}}</div>
+                    <img src="assets/images/hdfs_icon.png" class="img-fluid">
+                  </div>
+                  <h6 class="text-uppercase">HDFS</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_perple">{{folderSourceCount}}</div>
+                    <img src="assets/images/rdbms_icon.png" class="img-fluid">
+                  </div>
+                  <h6 class="text-uppercase">FOLDER</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card End -->
+          <!-- Card Open -->
+          <div class="card">
+            <div class="card-body">
+              <div class="card_heading bg_green">Recipes</div>
+              <div class="row">
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_green">{{pythonRecipesCount}}</div>
+                    <img src="assets/images/hdfs_green_icon.png" class="img-fluid">
+                  </div>
+                  <h6 class="text-uppercase">PYTHON</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_green">{{hqlRecipesCount}}</div>
+                    <img src="assets/images/hql_green_icon.png" class="img-fluid">
+                  </div>
+                  <h6 class="text-uppercase">HQL</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card End -->
+          <!-- Card Open -->
+          <div class="card">
+            <div class="card-body">
+              <div class="card_heading bg_orange">Timeline</div>
+             
+              <div class="main-panel">
+                <div infinite-scroll [infiniteScrollDistance]="1"
+                [infiniteScrollThrottle]="50"
+                 [infiniteScrollContainer]="selector"
+                 [fromRoot]="true"
+                 (scrolled)="onTimeLineScrollDown()">
+                   <div class="col-12 mb-1 d-flex" *ngFor="let data of timeLineData">
+                     <div class="col-8 px-0">
+                       <h5>{{data.description}}</h5>
+                     </div>
+                     <div class="col-4">
+                       <h5 class="text_orange">{{data.createdDate | date:short}}</h5>
+                     </div>
+                   </div>
+                 </div>
+              
+ 
+              </div>
+              
+            </div>
+          </div>
+          <!-- Card End -->
+        </div>
+        <div class="card-deck card-columns mb-1">
+          <!-- Card Open -->
+          <div class="card">
+            <div class="card-body">
+              <div class="card_heading bg_blue">Models</div>
+              <div class="row">
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_blue">2</div>
+                    <img src="assets/images/rdbms_blue2_icon.png" class="img-fluid">
+                  </div>
+                  <h6>Random Forest</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_blue">2</div>
+                    <img src="assets/images/rdbms_blue_icon.png" class="img-fluid">
+                  </div>
+                  <h6 class="text-uppercase">RCNN</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_blue">2</div>
+                    <img src="assets/images/rdbms_blue2_icon.png" class="img-fluid">
+                  </div>
+                  <h6 class="text-uppercase">CNN</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_blue">2</div>
+                    <img src="assets/images/rdbms_blue2_icon.png" class="img-fluid">
+                  </div>
+                  <h6 class="text-uppercase">KNN</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_blue">2</div>
+                    <img src="assets/images/rdbms_blue_icon.png" class="img-fluid">
+                  </div>
+                  <h6>Logistic Regression</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_blue">2</div>
+                    <img src="assets/images/rdbms_blue2_icon.png" class="img-fluid">
+                  </div>
+                  <h6>Naive Bayes</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="icon_wrap">
+                    <div class="count bg_blue">2</div>
+                    <img src="assets/images/rdbms_blue2_icon.png" class="img-fluid">
+                  </div>
+                  <h6>Linear Regression</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card End -->
+          <!-- Card Open -->
+          <div class="card">
+            <div class="card-body pt-5">
+              <div class="card_heading bg_red">Execution</div>
+              <div class="row">
+                <div class="col-12 text-center mb-4 border-bottom pb-3">
+                  <div class="chart mx-auto mb-5">
+                    <canvas id="pieChart" class="img-fluid align-middle mb-3"></canvas>
+                    <span class="font40 font-weight-bold">{{jobExecutionCount}}</span>
+                  </div>
+                  <h6>Execution done so far</h6>
+                </div>
+                <hr />
+              </div>
+              <div class="row">
+                <div class="col-4 text-center mb-1">
+                  <div class="circle_wrap text-success">{{executeDataCount.success}}</div>
+                  <h6>Success</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="circle_wrap text-warning">{{executeDataCount.started}}</div>
+                  <h6>Started</h6>
+                </div>
+                <div class="col-4 text-center mb-1">
+                  <div class="circle_wrap text-danger">{{executeDataCount.failed}}</div>
+                  <h6>Failed</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card End -->
+          <!-- Card Open -->
+          <div class="card">
+            <div class="card-body">
+              <div class="card_heading bg_darkgray"><a class="sched_link" routerLink="/scheduler">Scheduler</a> </div>
+              <div class="row">
+                <div class="col-12 mb-1">
+                  <h6>Schedule runs daily at 10pm<br>
+                    from 3rd June - 5th June, 2020</h6>
+                </div>
+              </div>
+              <div class="row schedule-btn">
+                <div class="col-4 text-center mb-1 sched_btn">
+                  <div class="circle_wrap_lg text_green"> Resume </div>
+                </div>
+                <div class="col-4 text-center mb-1 sched_btn">
+                  <div class="circle_wrap_lg text_red"> Suspend </div>
+                </div>
+                <div class="col-4 text-center mb-1 sched_btn">
+                  <div class="circle_wrap_lg text_darkgray"> Kill </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 my-5">
+                  <button type="button" class="btn btn-block btn_border res_btn">Edit Schedule</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card End -->
+        </div>
+      </div>
+    </div>
+    <!-- Right Content End-->
+  </div>
+</section>
+
+<!-- Rerun Options Modal Start -->
+<div class="modal fade bd-example-modal-lg rerun-jobs" id="RerunOptions" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h1 class="modal-title content-heading">Configure Rerun Params</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetReRunFile()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" [formGroup]="rerunParams">
+        <div class="row">
+          <label>
+            <input type="radio" formControlName="loadType" value="TruncateAndLoad"> <span>Truncate & Load</span>
+          </label>
+          <label>
+            <input type="radio" formControlName="loadType" value="IncrementalLoad"> <span>Incremental</span>
+          </label>
+        </div>
+        <!-- <div class="row" *ngIf="rerunParams.value.nodeTypeId == 1">
+          <input type="file" (change)="uploadFile($event.target.files)">
+        </div> -->
+
+        <div *ngIf="rerunParams.value.nodeTypeId == 1" class="row drag-drop-cont px-5">
+          <h2 class="d-inline-block mb-0"><img src="assets/images/drag_drop_icon.png" width="60"
+              class="d-inline-block align-middle" />{{rerunFileName}}</h2>
+          <div class="upload-btn-wrapper ml-auto">
+            <label for="browser" class="btn" for="browser">Browse</label>
+            <input type="file" id="browser" name="myfile" accept=".csv" (change)="uploadFile($event.target.files)" />
+          </div>
+        </div>
+
+
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary" (click)="setReRunParams();">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg rerun-jobs" id="rdbmsRerunOptions" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="initRdbmsRerunForm()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pb-0" [formGroup]="rdbmsRerunParams">
+        <div class="row" *ngIf="showRdbmsRerunMsg">
+          <div class="col-xs-10 col-lg-12 col-xl-12 alignPopup px-0">
+            <app-success-and-failure [status]="status" [message]="message">
+            </app-success-and-failure>
+          </div>
+        </div>
+        <div class="row pb-3">
+          <h1 class="modal-title content-heading">Configure rdbms Rerun Params</h1>
+        </div>
+        <div class="row pb-3">
+          <label>
+            <input type="radio" formControlName="loadType" name="loadType" value="TruncateAndLoad"> <span>Truncate &
+              Load</span>
+          </label>
+          <label>
+            <input type="radio" formControlName="loadType" name="loadType" value="IncrementalLoad">
+            <span>Incremental</span>
+          </label>
+        </div>
+        <div class="row" *ngIf="rdbmsRerunParams.value.loadType == 'IncrementalLoad' ">
+          <table class="table table-hover ingest-table rerun-cont">
+            <thead>
+              <tr>
+                <th></th>
+                <th>COLUMN NAME</th>
+                <th>DATA TYPE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let column of rdbmsReRunColumns; let i=index">
+                <td>
+                  <input type="radio" formControlName="selectedIncrementalData" [checked]="column.incrementalColumn"
+                    [value]=i (change)="setIncrementalCol(i);">
+                </td>
+                <td>
+                  {{column.columnName}}
+                </td>
+                <td>
+                  {{column.dataType}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer border-0 pb-3 pt-0">
+        <button type="button" class="btn btn-secondary" (click)="setRdbmsRerunParams()"
+          [disabled]="rdbmsRerunParams.invalid">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Rerun Options Modal End -->
+
+<!-- PAGE CONTENT END -->
+
+<!--FOOTER OPEN-->
+
+<!-- FOOTER END -->

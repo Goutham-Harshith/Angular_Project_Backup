@@ -1,0 +1,435 @@
+.fa-edit {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.project_search {
+  border-radius: 0px;
+}
+
+.left-cont_head {
+  margin-bottom: 0px !important;
+}
+.create_job {
+  cursor: pointer;
+  margin-left: 3px;
+  color: #edf0f4;
+}
+.left-cont_head i{
+  cursor: pointer;
+}
+.sched_link {
+  color: #ffffff;
+}
+@media only screen and (max-width: 1470px) and (min-width: 1430px) {
+  .page_content .left_content {
+    height: auto !important;
+  }
+  .all_project_list {
+    max-height: 613px !important;
+  }
+}
+@media only screen and (max-width: 1380px) and (min-width: 1340px) {
+  .all_project_list {
+    max-height: 613px !important;
+  }
+  .page_content .left_content {
+    height: auto !important;
+  }
+}
+@media only screen and (max-width: 1930px) and (min-width: 1890px) {
+  .all_project_list {
+    max-height: 613px !important;
+  }
+  .page_content .left_content {
+    height: auto !important;
+  }
+}
+@media only screen and (max-width: 1550px) and (min-width: 1500px) {
+  .all_project_list {
+    max-height: 613px !important;
+  }
+  .page_content .left_content {
+    height: auto !important;
+  }
+}
+@media only screen and (max-width: 1630px) and (min-width: 1580px) {
+  .all_project_list {
+    max-height: 613px !important;
+  }
+  .page_content .left_content {
+    height: auto !important;
+  }
+}
+
+@media only screen and (max-width: 1290px) and (min-width: 1250px) {
+  .all_project_list {
+    max-height: 613px !important;
+  }
+  .page_content .left_content {
+    height: auto !important;
+  }
+}
+
+.all_project_list .list_warp:hover:before {
+  content: "";
+  background: url("../../assets/images/pie_chart_hover.png") no-repeat center
+    center #8263ab;
+  width: 70px;
+  height: 100%;
+  display: block;
+  position: absolute;
+  border-radius: 0 50px 50px 0;
+  top: 0;
+  left: 0;
+}
+
+.all_project_list .list_warp:before {
+  content: "";
+  background: url("../../assets/images/pie_chart.png") no-repeat center center
+    #eceff2;
+  width: 70px;
+  height: 100%;
+  display: block;
+  position: absolute;
+  border-radius: 0 50px 50px 0;
+  top: 0;
+  left: 0;
+}
+.all_project_list {
+  width: 100%;
+  margin: 0px;
+  padding: 0 0 0 0px;
+  max-height: 620px;
+  overflow-y: hidden;
+}
+.all_project_list:hover {
+  overflow-y: auto;
+  scrollbar-color: #8263ab;
+  scrollbar-width: thin;
+}
+.all_project_list .list_warp {
+  width: 100%;
+  margin: 0 0 8px;
+  padding: 10px 10px 10px 80px;
+  border: solid 1px #c3ced6;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  height: 65px;
+}
+.all_project_list .list_warp:hover {
+  width: 100%;
+  margin: 0 0 8px;
+  padding: 10px 10px 10px 80px;
+  border: solid 1px #8263ab;
+  position: relative;
+  overflow: hidden;
+  background: #eff2f4;
+}
+
+.all_project_list .list_warp ul {
+  margin: 0px;
+  padding: 0px;
+}
+.all_project_list .list_warp ul li {
+  margin: 0px;
+  padding: 0 0 0 15px;
+  position: relative;
+  list-style: none;
+  line-height: 28px;
+  font-size: 13px;
+}
+.all_project_list .list_warp ul li:before {
+  margin: 0px;
+  padding: 0px;
+  width: 10px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  background: #8263ab;
+  content: "";
+  left: 0px;
+  top: 10px;
+  border-radius: 50%;
+}
+
+.all_project_list .main_job_list:hover:before {
+  content: "";
+  background: url("../../assets/images/pie_chart_hover.png") no-repeat center
+    center #8263ab;
+  width: 70px;
+  height: 100%;
+  display: block;
+  position: absolute;
+  border-radius: 0 50px 50px 0;
+  top: 0;
+  left: 0;
+}
+.all_project_list .main_job_list:before {
+  content: "";
+  background: url("../../assets/images/pie_chart.png") no-repeat center center
+    #8263ab;
+  width: 70px;
+  height: 100%;
+  display: block;
+  position: absolute;
+  border-radius: 0 50px 50px 0;
+  top: 0;
+  left: 0;
+}
+.all_project_list .main_job_list {
+  width: 100%;
+  margin: 0 0 8px;
+  padding: 10px 10px 10px 80px;
+  border: solid 1px #c3ced6;
+  position: relative;
+  overflow: hidden;
+  height: 65px;
+}
+.all_project_list .main_job_list:hover {
+  width: 100%;
+  margin: 0 0 8px;
+  padding: 10px 10px 10px 80px;
+  border: solid 1px #8263ab;
+  position: relative;
+  overflow: hidden;
+  background: #eff2f4;
+}
+.all_project_list .main_job_list ul {
+  margin: 0px;
+  padding: 0px;
+}
+.all_project_list .main_job_list ul li {
+  margin: 0px;
+  padding: 0 0 0 15px;
+  position: relative;
+  list-style: none;
+  line-height: 28px;
+  font-size: 13px;
+}
+.all_project_list .main_job_list ul li:before {
+  margin: 0px;
+  padding: 0px;
+  width: 10px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  background: #8263ab;
+  content: "";
+  left: 0px;
+  top: 10px;
+  border-radius: 50%;
+}
+
+.all_project_list .sub_job_list:hover:before {
+  content: "";
+  background: url("../../assets/images/pie_chart_hover.png") no-repeat center
+    center #8263ab;
+  width: 70px;
+  height: 100%;
+  display: block;
+  position: absolute;
+  border-radius: 0 50px 50px 0;
+  top: 0;
+  left: 0;
+}
+
+.all_project_list .sub_job_list:before {
+  content: "";
+  background: url("../../assets/images/pie_chart.png") no-repeat center center
+    #eceff2;
+  width: 70px;
+  height: 100%;
+  display: block;
+  position: absolute;
+  border-radius: 0 50px 50px 0;
+  top: 0;
+  left: 0;
+}
+.all_project_list .sub_job_list {
+  width: 95%;
+  margin: 0 0 8px;
+  padding: 10px 10px 10px 80px;
+  border: solid 1px #c3ced6;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  height: 65px;
+  float: right;
+}
+.all_project_list .sub_job_list:hover {
+  width: 95%;
+  margin: 0 0 8px;
+  padding: 10px 10px 10px 80px;
+  border: solid 1px #8263ab;
+  position: relative;
+  overflow: hidden;
+  background: #eff2f4;
+  float: right;
+}
+.all_project_list .sub_job_list ul {
+  margin: 0px;
+  padding: 0px;
+}
+.all_project_list .sub_job_list ul li {
+  margin: 0px;
+  padding: 0 0 0 15px;
+  position: relative;
+  list-style: none;
+  line-height: 28px;
+  font-size: 13px;
+}
+.all_project_list .sub_job_list ul li:before {
+  margin: 0px;
+  padding: 0px;
+  width: 10px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  background: #8263ab;
+  content: "";
+  left: 0px;
+  top: 10px;
+  border-radius: 50%;
+}
+
+@media (min-width: 576px) {
+  .pad-1 {
+    padding: 1rem !important;
+  }
+  .card {
+    height: 330px !important;
+  }
+}
+
+.icons a i {
+  margin-right: 10px !important;
+}
+.link_darkgray {
+  transition: transform 0.2s;
+}
+
+.link_darkgray :hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.redirectButton {
+  color: #5f7c93;
+  text-decoration: none;
+  border: none;
+}
+
+.card-deck .card .card-body .row
+{
+  max-height: 260px;
+  overflow-y: hidden;
+}
+.card-deck .card .card-body .row:hover
+{
+  overflow-y: auto;
+}
+
+#logsModal .modal-dialog {
+  max-width: 70% !important;
+}
+#logsModal .modal-content
+{
+  padding: 10px;
+  padding-top: 5px;
+  width: auto;
+}
+#logsModal .modal-header
+{
+  border-bottom: 0px !important;
+  padding: 10px;
+}
+.content-heading
+{
+  padding-top: 2px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #8364a8;
+}
+#logsModal .modal-header .close {
+  padding-bottom: 5px;
+}
+.logs-mode-cont
+{
+  border: 2px solid  #8364a8;
+  padding: 10px;
+}
+#logsModal .modal-body 
+{
+  padding: 10px;
+}
+
+.chart .font40
+{
+  color: #5f7c93;
+}
+
+.rerun-jobs .modal-body .row {
+  margin: 0px;
+  align-items: center;
+}
+.rerun-jobs .modal-body {
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-top: 0px;
+}
+
+.rerun-jobs .modal-footer {
+  margin-right: 10px;
+}
+
+.rerun-jobs label {
+  flex-grow: 1;
+}
+
+.rerun-jobs label input[type=radio] {
+  margin-right: 10px;
+}
+
+.drag-drop-cont {
+  background: #eef2f4;
+}
+
+.drag-drop-cont .upload-btn-wrapper label {
+  border: 3px solid #8263ab;
+    color: #8263ab;
+    background-color: transparent;
+    padding: 5px 50px;
+    border-radius: 0px;
+    font-size: 18px;
+    margin-bottom: 0px;
+}
+
+.drag-drop-cont .upload-btn-wrapper input {
+  width: 0px;
+}
+
+.ingest-table thead
+{
+  background: #8364a8;
+  color: white;
+}
+
+tr
+{
+  background-color: rgba(0,0,0,.075);
+}
+
+.row .text_orange
+{
+  position: absolute;
+  right: 0px;
+}
+
+.main-panel {
+  height: 260px;
+  overflow-y: scroll;
+      flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}

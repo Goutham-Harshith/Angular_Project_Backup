@@ -1,0 +1,8 @@
+.data_digestion_icon .white_icon{ display: none; }
+.data_digestion_icon a.active { background: #8263ab;border: 5px solid #eef2f4; }
+.data_digestion_icon a img { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.data_digestion_icon a.active img.white_icon{ display: block; }
+.data_digestion_icon a.active img.blue_icon{ display: none; }
+.font18{
+    font-size:16px !important;
+}

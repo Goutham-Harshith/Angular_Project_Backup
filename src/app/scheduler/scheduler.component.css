@@ -1,0 +1,200 @@
+.flow-comments {
+  font-size: 15px;
+  resize: none;
+  height: 90px;
+}
+.file_fields_outer {
+  max-height: 500px;
+  overflow-y: hidden;
+}
+.file_fields_outer:hover {
+  overflow-y: auto;
+  scrollbar-color: #8263ab;
+  scrollbar-width: thin;
+}
+
+.list-box table tr th {
+  background: #8263ab;
+  color: #fff;
+  font-size: 15px;
+  font-weight: normal;
+  border: 2px solid #fff;
+  padding: 10px 20px;
+  font-weight: 500;
+}
+
+.list-box table tr input[type='checkbox'] {
+  height: 15px;
+  width: 15px;
+}
+
+.list-box table tr td {
+  background: #eef2f4;
+  color: #8263ab;
+  font-size: 14px;
+  font-weight: normal;
+  border: 2px solid #fff;
+  padding: 8px 20px;
+}
+
+.list-box table tr td select {
+  background: transparent;
+  border: none;
+  width: 100%;
+  color: #8263ab;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-schedular:after {
+  content: "\f002";
+  position: absolute;
+  right: 30px;
+  top: 37%;
+  transform: translateY(-50%);
+  z-index: 1;
+  text-align: center;
+  font-size: 14px;
+  pointer-events: none;
+  font-family: FontAwesome;
+  color: #5f7c93;
+}
+.search-schedular-rgt .circle_wrap_lg {
+  width: 76px;
+  height: 76px;
+  margin: auto;
+  border: solid 5px #eef2f4;
+  border-radius: 50%;
+  line-height: 64px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+}
+.highlighted {
+  background-color: burlywood !important;
+  border-top: solid black !important;
+  border-right: 1px solid black !important;
+  border-left: 1px solid black !important;
+  border-bottom: solid black !important;
+}
+
+.leftPad {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+.form-group {
+  margin-bottom: 0px !important;
+}
+.scroll_inner {
+  min-height: 600px !important;
+  overflow-y: hidden !important;
+}
+
+.scroll_inner:hover {
+  overflow-y: auto !important;
+  scrollbar-color: #8263ab;
+  scrollbar-width: thin;
+}
+@media screen and (min-height: 780px) {
+  .page_content,
+  .content_left {
+    height: 85vh !important;
+  }
+  .scroll_inner {
+    min-height: 600px !important;
+    overflow-y: hidden !important;
+  }
+  .scroll_inner:hover {
+    overflow-y: auto !important;
+    scrollbar-color: #8263ab;
+    scrollbar-width: thin;
+  }
+}
+
+.ellipse {
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  max-width: 80px !important;
+}
+
+ng-multiselect-dropdown {
+  padding: 16px 10px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.xmlName
+{
+  width: 20px !important;
+}
+
+.scroll_inner .feild-container
+{
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.rightBodyPad .tabCont
+{
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.table-content {
+  max-height: 400px;
+  overflow: auto;
+  border-radius: 5px;
+  border: solid 1px;
+}
+
+.page-control {
+  position: static;
+}
+
+.page-control input{
+  float: right;
+}
+
+.page-control label {
+  float: right;
+  margin-top: 3px;
+  margin-right: 5px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.page-control pagination-controls
+{
+  float: left;
+}
+
+.requiredField
+{
+  color: red;
+  margin-top : -21px;
+}
+
+.select-dropdown:before {
+  right: 15px;
+  top: 70%;
+}
+
+:host ::ng-deep .selected-list .countplaceholder {
+  right: 35px;
+}
+
+:host ::ng-deep .clear-all
+{
+  right: 25px;
+}

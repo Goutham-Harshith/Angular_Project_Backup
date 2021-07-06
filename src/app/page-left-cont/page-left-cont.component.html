@@ -1,0 +1,63 @@
+
+ <div class="left_content">
+    <div class="bg_darkgray p-3">
+      <div class="row align-items-center">
+        <div class="col-sm-8 col-12 mb-2 mb-sm-0 text-center text-sm-left ">
+          <h3  class="text_lightgray mb-0 pl-md-3 pl-0">{{pageTitle}}</h3>
+        </div>
+        <div class="col-sm-4 col-12 mb-2 mb-sm-0 text-center text-sm-right">
+          <h4 class="text-white mb-0"><a routerLink="/dashboard" class="text-white"><i class="fa fa-angle-left" aria-hidden="true"></i> Back</a></h4>
+        </div>
+      </div>
+    </div>
+    <div class="px-4 py-5">
+      <div class="scroll_outer">
+        <div class="scroll_inner"> 
+          <!-- Data Digestion Open -->
+             <div class="col-12 data_digestion_icon">
+                <div class="row">
+                   <div class="col-md-4 col-sm-6 text-center mb-5">
+                      <a   (click)="setTitle('Large Data Ingestion','/large-data-ingestion')"  class="rounded-circle border-grey d-inline-block data-digestion-icon" id="large-data-Ingestion">
+                          <img src="assets/images/hdfs_icon_blue.png" alt="HDFS Icon" class="img-fluid mx-auto rounded-circle blue_icon" />
+                          <img src="assets/images/hdfs_icon_white.png" alt="HDFS Icon" class="img-fluid mx-auto rounded-circle white_icon" />
+                      </a>
+                      <p class="d-block text-center text-uppercase mt-3 mb-0 font18">hdfs</p>
+                   </div>
+                   <div class="col-md-4 col-sm-6 text-center mb-5">
+                      <a   (click)="setTitle('RDBMS-Data Connection','/rdbms-data-ingestion')"   class="rounded-circle border-grey d-inline-block data-digestion-icon" id="rdbms-data-ingestion">
+                          <img src="assets/images/rdbms_icon_blue.png" alt="RDBMS Icon" class="img-fluid mx-auto rounded-circle blue_icon" />
+                          <img src="assets/images/rdbms_icon_white.png" alt="RDBMS Icon" class="img-fluid mx-auto rounded-circle white_icon" />
+                      </a>
+                      <p class="d-block text-center text-uppercase mt-3 mb-0 font18">RDBMS</p>
+                   </div>
+
+                   <div class="col-md-4 col-sm-6 text-center mb-5">
+                      <a   (click)="setTitle('Data Ingestion','/data-ingestion')"  class="rounded-circle border-grey d-inline-block data-digestion-icon" id="data-ingestion">
+                          <img src="assets/images/folder_icon_blue.png" alt="Files Icon" class="img-fluid mx-auto rounded-circle blue_icon" />
+                          <img src="assets/images/folder_icon_white.png" alt="Files Icon" class="img-fluid mx-auto rounded-circle white_icon" />
+                      </a>
+                      <p class="d-block text-center text-uppercase mt-3 mb-0 font18">files</p>
+                   </div>
+
+                   <div class="col-md-4 col-sm-6 text-center mb-5">
+                      <a  (click)="setTitle('Data Stream Ingestion','/data-stream-ingestion')" routerLinkActive="active"    class="rounded-circle border-grey d-inline-block data-digestion-icon" id="data-stream-ingestion">
+                          <img src="assets/images/sap_icon_blue.png" alt="SAP Icon" class="img-fluid mx-auto rounded-circle blue_icon" />
+                          <img src="assets/images/sap_icon_white.png" alt="RDBMS Icon" class="img-fluid mx-auto rounded-circle white_icon" />
+                      </a>
+                      <p class="d-block text-center text-uppercase mt-3 mb-0 font18">SAP</p>
+                   </div>
+
+                   <!-- <div class="col-md-4 col-sm-6 text-center mb-5">
+                      <a  class="rounded-circle border-grey d-inline-block data-digestion-icon">
+                          <img src="assets/images/sap_icon_blue.png" alt="SAP Icon" class="img-fluid mx-auto rounded-circle blue_icon" />
+                          <img src="assets/images/sap_icon_white.png" alt="RDBMS Icon" class="img-fluid mx-auto rounded-circle white_icon" />
+                      </a>
+                      <p class="d-block text-center text-uppercase mt-3 mb-0 font18">SAP</p>
+                   </div> -->
+                </div>
+             </div>
+          <!-- Data Digestion End --> 
+        </div>
+      </div>
+    </div>
+  </div>

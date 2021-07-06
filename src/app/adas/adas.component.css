@@ -1,0 +1,14 @@
+google-chart {
+    width: 100%;
+}
+
+.row {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+#lidar-box{
+    overflow-x: hidden;
+    height: 320px;
+}

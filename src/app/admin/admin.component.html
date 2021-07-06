@@ -1,0 +1,188 @@
+<!-- PAGE CONTENT OPEN -->
+<section class="page_content bg_gray2">
+  <div class="row">
+    <!-- Left Content Open-->
+    <div class="col-lg-4 col-md-6 col-12 pr-0">
+      <div class="bg_lightgray  text-right top_left_header"> </div>
+      <div class="left_content">
+
+        <div class="left-side_cont">
+          <div class="bg_darkgray p-3 ">
+            <div class="row align-items-center">
+              <div class="col-sm-6 col-12 mb-2 mb-sm-0 text-center text-sm-left">
+                <h3 class="text_lightgray left-cont_head">User List</h3>
+              </div>
+            </div>
+          </div>
+          <div class="p-3">
+            <div class="row">
+              <div class="col-lg-6 col-12 form-group">
+                <div class="input-group">
+                  <input type="text" class="form-control project_search" placeholder="Search by Name"
+                  [(ngModel)]="searchUser"  aria-label="Recipient's username">
+                  <div class="input-group-append "> <span class="input-group-text project_search"><i
+                        class="fa fa-search"></i></span> </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-12 form-group">
+                <div class="dropdown">
+                  <div class="dropdown-menu"> <a class="dropdown-item" href="#">Normal</a> <a
+                      class="dropdown-item active" href="#">Active</a> <a class="dropdown-item disabled"
+                      href="#">Disabled</a> </div>
+                </div>
+              </div>
+            </div>
+            <!-- List Wrap Open -->
+            <div class="all_project_list">
+              <!-- List Open -->
+              <div>
+                <div>
+                  <!-- no subjobs list -->
+                  <div class="list_warp" *ngFor="let user of userList | userSearch : searchUser : ['cn']">
+                    <div class="row">
+                      <div class="col-xl-6 col-lg-12 col-md-12 col-sm-6 mb-2 mb-xl-0" >
+                        <h3>{{user.cn}}</h3>
+                        <h4>{{user.mail}}</h4>
+                        <!-- <ul>
+                      <li>Created by Siddharth</li>
+                    </ul> -->
+                      </div>
+                      <div class="col-xl-6 col-lg-12 col-md-12 col-sm-6 text-left text-xl-right">
+                        <h4 class="mb-3">10-20-2019</h4>
+                        <h3>
+                          <a class="link_darkgray"><i class="fa fa-edit"></i></a> 
+                          <a class="link_darkgray" (click)="deleteUser(user)"><i class="fa fa-trash"></i></a>
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- List Wrap End -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Left Content End-->
+
+
+    <!-- Right Content Open-->
+    <div class="col-lg-8 col-md-6 col-12 pl-0">
+      <div class="p-3 p-sm-5 pad-1">
+
+        <div class="p-3 px-sm-5 py-sm-4 rightBodyPad">
+
+          <div class="col-12 px-5 py-2 padTopZero">
+
+            <form name="modalForm" [formGroup]="form" (ngSubmit)="submitUserForm()" >
+              <div class=" row">
+              <div class="col-lg-6 col-md-12 px-5 my-2">
+                <div class=" formFieldConatiner">
+                  <label class="fon15">Enter Username </label>
+                  <input type="text" class="mb-4 border border-dark form-control " name="UserName" (keyup)="this.validateUserName.next($event)"
+                    id="inputdatabaseUrl" formControlName="userName" value="" required="required" pattern="^[^\d][\w]*" title="">
+                    <div *ngIf="getControls().userName.touched && form.value.userName == ''|| isFormInvalid && form.value.userName == ''">
+                      <div class="requiredField">Username is required</div>
+                    </div>
+                    <div class="requiredField" *ngIf="getControls().userName.errors?.pattern">Invalid username</div>
+                    <div class="requiredField" *ngIf="isNameExist && form.value.userName !== '' && !getControls().userName.errors?.pattern">Username already exists
+                    </div>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-md-12 px-5 my-2">
+                <div>
+                  <label class="fon15">Enter FirstName</label>
+
+                  <input type="text" class="mb-4 border border-dark form-control" name="databaseUrl"
+                    id="inputdatabaseUrl" formControlName="firstName" value="" required="required" pattern="" title="">
+                  <div *ngIf="getControls().firstName.touched && !getControls().firstName.valid || isFormInvalid && !getControls().firstName.valid">
+                    <div class="requiredField" >FirstName is required </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-md-12 px-5 my-2">
+                <div>
+                  <label class="fon15">Enter LastName</label>
+
+                  <input type="text" class="mb-4 border border-dark form-control rounded-0 " name="databasePort"
+                    id="inputdatabasePort" formControlName="lastname" value="" required="required" pattern="" title="">
+                  <div *ngIf="getControls().lastname.touched && !getControls().lastname.valid || isFormInvalid && !getControls().lastname.valid">
+                    <div class="requiredField">LastName is required</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-lg-6 col-md-12 px-5 my-2">
+                <div class="select-dropdown">
+                  <label class="fon15">Enter Group</label>
+                    <select class="mb-4 border border-dark form-control rounded-0" id="inputdatabaseName" formControlName="selectedGrp" value="" required="required">
+                      <option *ngFor="let group of userGroup">{{group}}</option>
+                    </select>
+                  <div *ngIf="getControls().selectedGrp.touched && !getControls().selectedGrp.valid || isFormInvalid && !getControls().selectedGrp.valid">
+                    <div class="requiredField">Group is required</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-md-12 px-5 my-2">
+                <div>
+                  <label class="fon15">Enter Email</label>
+
+                  <input type="text" class="mb-4 border border-dark form-control rounded-0 " name="databaseUserName"
+                    id="inputdatabaseUserName" formControlName="email" value="" required="required" pattern=""
+                    title="">
+                  <div *ngIf="getControls().email.touched && !getControls().email.valid || isFormInvalid && !getControls().email.valid">
+                    <div class="requiredField"> Email is required</div>
+                  </div>
+
+
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-md-12 px-5 my-2">
+                <div>
+                  <label class="fon15">Enter Mobile Number</label>
+
+                  <input type="text" class="mb-4 border border-dark form-control rounded-0 " name="databasePassword"
+                    id="inputdatabasePassword" formControlName="phoneNo" value="" required="required" pattern=""
+                    title="">
+                  <div *ngIf="getControls().phoneNo.touched && !getControls().phoneNo.valid || isFormInvalid && !getControls().phoneNo.valid">
+                    <div class="requiredField">Mobile number is required</div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          </form>
+        </div>
+      
+        <div class="row data_ingestion_buttons px-5">
+          <div class="col-lg-4 col-md-12 px-0">
+
+          </div>
+          <div class="col-lg-4 col-md-12 pr-0">
+            <button class="btn btn_perple float-left w-100 m-0 " title="Reset"
+              (click)="handleForm()">Reset</button>
+
+          </div>
+          <div class="col-lg-4 col-md-12 pr-0">
+            <button class="btn btn_perple float-left w-100 m-0 " title="Connect" (click)="submitUserForm()">Create User</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Right Content End-->
+  </div>
+</section>
+<!-- PAGE CONTENT END -->
+
+<!--FOOTER OPEN-->
+
+<!-- FOOTER END -->

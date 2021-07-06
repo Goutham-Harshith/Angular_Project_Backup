@@ -1,0 +1,86 @@
+<section>
+  <div class="row d-flex align-items-stretch">
+    <div class="col-xl-8 col-lg-6 col-md-6 col-12">
+      <div class="login_bg">
+        <p class="mb-5"><img src="assets/images/logo_login.png" class="login_logo"></p>
+        <h1>Big Data has the<br>
+          potential to solve<br>
+          Big Problems</h1>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+      <div class="align-items-center d-flex h-100">
+      <form class="w-100" autocomplete="on" *ngIf="!changingPwd">
+          <div class="login_wrap">
+            <h2 class="mb-3 pb-2 text_perple">Log in to your account</h2>
+
+            <div>
+              <app-success-and-failure [status]="status" [message]="message" *ngIf="isError">
+              </app-success-and-failure>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 mb-4">
+                <label>Username</label>
+                <input type="text" class="form-control" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}"
+                  placeholder="Username" />
+                <p class="valid-user">Please enter valid E-mail</p>
+
+              </div>
+              <div class="col-md-12 mb-4">
+                <label>Password</label>
+                <input [type]="pwdTextType ? 'text' : 'password'" class="form-control" [(ngModel)]='userPwd' [ngModelOptions]="{standalone: true}"
+                  placeholder="Password" />
+                  <div class="password-options d-flex">
+                    <div class="showPassword">
+                      <input type="checkbox" id="showPwd" (click)="toggleFieldTextType()">
+                      <label for="showPwd" class="pl-2">Show Password</label>
+                    </div>
+                    <div class="forget-password">
+                      <p><a>Forgot Password?</a></p>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn btn_perple btn-block" (click)='login()' title="Sign in">Sign in</button>
+              </div>
+            </div>
+          </div>
+        </form> 
+        <form class="w-100" autocomplete="off" *ngIf="changingPwd">
+          <div class="login_wrap">
+            <h2 class="mb-3 pb-2 text_perple">Change password</h2>
+            <div>
+              <app-success-and-failure [status]="status" [message]="message" *ngIf="isError">
+              </app-success-and-failure>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mb-4">
+                <label>New Password</label>
+                <input type="text" class="form-control" [(ngModel)]="newPassword" name="newPassword"
+                  placeholder="New Password" />
+              </div>
+              <div class="col-md-12 mb-4">
+                <label>Confirm Password</label>
+                <input type="password" class="form-control" [(ngModel)]='confirmPassword' name="confirmPassword"
+                  placeholder="Confirm Password" (keyup)="checkPassword()"/>
+                <p *ngIf="checkPwd" class="text-success">{{passwordData}}</p>
+                <p *ngIf="!checkPwd" class="text-danger">{{passwordData}}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn btn_perple btn-block" (click)="changeDetails()" title="Submit">Submit</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Page Content Close-->
+<router-outlet></router-outlet>
+<script src="./assets/js/jquery.nicescroll.min.js"></script>

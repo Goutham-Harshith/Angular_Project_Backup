@@ -1,0 +1,501 @@
+.tree-cont{
+    padding-left:5% !important; 
+}
+
+
+.log-console-cont input{  background-color: transparent; color: rgba(255,255,255,0.5); }
+.log-console-cont a{ right: 30px; top: 10px; color: rgba(255,255,255,0.5);  }
+
+.node circle {
+  fill: #fff;
+  stroke: #5f7c93;
+  stroke-width: 3px;
+}
+
+.node text { font-size:  14px }
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2px;
+}
+
+
+
+
+
+.script-tree-cont .tree {
+  min-height: 20px;
+  padding: 0 10px;
+  margin-bottom: 20px;
+}
+.script-tree-cont .tree > ul { margin:0; padding: 0; }
+
+.script-tree-cont .tree li {
+  list-style-type: none;
+  margin: 0;
+  padding: 10px 0 0 5px;
+  position: relative
+}
+
+.script-tree-cont .tree li::before,
+.script-tree-cont .tree li::after {
+  content: '';
+  left: -20px;
+  position: absolute;
+  right: auto
+}
+
+.script-tree-cont .tree li::before {
+  border-left: 2px solid rgba( 95, 124, 147, 0.44);
+  bottom: 50px;
+  height: calc(100% - 30px);
+  top: 30px;
+}
+
+
+.script-tree-cont .tree li::after {
+  box-sizing: border-box;
+  border-left: 2px solid rgba( 95, 124, 147, 0.44);
+  border-bottom: 2px solid rgba( 95, 124, 147, 0.44);
+  height: 30px;
+  top: 0px;
+  width: 25px;
+}
+
+.script-tree-cont .tree li span {
+  border: 2px solid rgba( 95, 124, 147, 0.44);
+  display: inline-block;
+  padding: 7px 10px;
+  text-decoration: none;
+  width: 100%;
+  background-color: #fff;
+}
+.script-tree-cont .tree li span .fa{
+  color: rgba( 95, 124, 147, 0.44);
+  font-size: 20px;
+  vertical-align: text-bottom;
+  float: right;
+}
+
+.script-tree-cont .tree li.parent_li > span {
+  cursor: pointer;
+  width: 100%;
+}
+
+.script-tree-cont .tree > ul > li::before,
+.script-tree-cont .tree > ul > li::after {
+  border: 0;
+}
+
+.script-tree-cont .tree li:last-child::before {
+  height: 0px;
+}
+
+.script-tree-cont .tree li:not(.parent_li) span {
+  position: relative;
+}
+
+/* another styles for parent_li immediate span children */
+.script-tree-cont .tree li.parent_li > span:before {
+  bottom: initial;
+  left: 2px;
+  top: 20.5px;
+}
+
+/* hide arrow for immediate children */
+.script-tree-cont .tree > ul > li > span:before {
+  display: none;
+}
+
+.mt-10{ margin-top: 10px; }
+
+.script-tree-cont .dropdown-item {    padding: 3px 10px;}
+.scrCont{
+  padding: 1rem !important;
+  padding-top:0.5rem !important;
+
+}
+.marBtm{
+  margin-bottom:0.5rem !important;
+}
+.CodeMirror{
+  height:450px !important;
+}
+.log-console-cont{
+  margin-top:0.5rem !important;
+}
+@media screen and (min-height: 780px){
+  .page_content,.content_left{
+      height: 85vh !important;
+  }
+
+  }
+
+.script-search
+{
+    width: 100%;
+    margin: auto;
+}
+
+.script-sea
+{
+  padding-top: 30px;
+  padding-bottom: 15px;
+  width: 100%;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+.fileul-list
+{
+  margin-top: 5px;
+  list-style-type: none;
+  padding-left: 5px;
+    line-height: 15px;
+}
+
+.scriptSelectList
+{
+  padding: 10px;
+  width: 100%;
+}
+
+.scriptSelectList{
+  color: #072352;
+  font-family: 'Open Sans';
+  font-weight: 600;
+}
+
+.list-wrapper
+{
+  height: 450px;
+  overflow-x: auto;
+  overflow-y:auto;
+  width: 100%;
+  border: 1px solid;
+}
+
+.scriptLi
+{
+  font-size: 14px;
+  color: black;
+}
+
+
+#selectfiles
+{
+  background-color: #072251;
+  color:white;
+}
+
+.rerun-table
+{
+  width: 100%;
+  margin-right: 0px;
+  margin-left: 0px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+p{
+  font-size: 17px;
+  color: black;
+}
+
+.modal-content
+{
+  padding: 30px;
+  padding-top: 5px;
+}
+
+.options
+{
+  padding : 15px;
+  padding-top: 10px;
+  padding-bottom: 22px;
+  color: black ;
+}
+
+.table-hover
+{
+  padding: 30px;
+}
+
+#modal-table
+{
+  color: black;
+}
+
+.modal-header
+{
+  border-bottom: 0px !important;
+  padding-bottom: 0px;
+}
+
+.content-heading
+{
+  padding-bottom: 15px;
+  font-size: 25px;
+  font-weight: 600;
+  color: #8364a8;
+}
+
+#table-head
+{
+  background: #8364a8;
+  color: white;
+}
+
+.modal-footer
+{
+  border-bottom: 0px;
+  border-top: 0px;
+}
+
+.modal-header .close {
+  padding-bottom: 5px;
+}
+
+#removeBorderTop
+{
+  border-top: 0px;
+  padding-top: 0px;
+}
+
+.dropdownMenuButton
+{
+  width: 20%;
+}
+
+.addFile
+{
+  padding-bottom: 16px;
+}
+
+.modal-body 
+{
+  padding-top: 0px ;
+}
+
+.p-align
+{
+  padding-right: 50px;
+  padding-top: 0px;
+  border-top: 0px;
+}
+
+.align-footer
+{
+  padding: 1rem;
+  padding-top: 0px;
+}
+
+.staging-button-head
+{
+  margin-bottom: 0px;
+}
+
+.alignPopup
+{
+  padding-right: 50px;
+   padding-left: 15px;
+}
+
+.requiredField
+{
+  color: red;
+  font-size: 15px;
+  margin-top: -24px;
+}
+
+.file-version-cont
+{
+  margin-right: 0px; margin-left: 0px;
+}
+
+.borderTop
+{
+  border-top: 0px;
+}
+
+.modal-inner-head
+{
+  margin-right: 0px; margin-left: 0px;
+}
+
+.fontBlack
+{
+  color: black;
+}
+
+.fontWhite
+{
+  color: white;
+}
+
+.fa-file-text-o, .fa-folder-o
+{
+  padding-right: 10px;
+}
+
+.cursor
+{
+  cursor: pointer;
+}
+
+.fileName
+{
+  display: inline-block;
+  margin-right: 55px;
+}
+
+.fileName h2
+{
+  display: inline-block;
+  color: white;
+}
+
+.justify-content-end
+{
+  margin: auto !important;
+}
+
+.options div .fa
+{
+  color : #8263ab;
+  font-size: 20px;
+}
+
+.options div select
+{
+    font-size: 14px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0.3rem 0.76rem;
+    line-height: 1.5;
+    background-color: #fff;
+    background-clip: padding-box;
+}
+
+.options div .target-node-name
+{
+    font-size: 14px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0.3rem 0.76rem;
+    line-height: 1.5;
+    background-color: #fff;
+    background-clip: padding-box;
+}
+
+.input-container
+{
+  max-height: 125px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.select-dropdown {
+  appearance : auto;
+}
+
+.col-2 .fa, .staging-bucket-raw
+{
+  cursor: pointer;
+}
+
+.target-inputs
+{
+  max-height: 30px;
+}
+
+.drag-drop-cont
+{
+  background: #eef2f4;
+}
+
+#browser
+{
+  width: 0px;
+}
+
+.drag-drop-cont h2 span{
+  font-size: 18px;
+}
+
+.upload-btn-wrapper label{
+  margin-top: 3%;
+}
+
+.breadcrumb
+{
+  border-radius: 0px;
+  width: 90%;
+}
+
+.scriptLi
+{
+  cursor: pointer;
+}
+
+.breadcrumb-item
+{
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.breadcrumb-item::before
+{
+  display: inline-block;
+  padding-right: .5rem;
+  padding-left: .5rem;
+  color: #6c757d;
+  content: "/" !important;
+}
+
+.breadcrumb-item:last-child
+{
+  color: inherit;
+  cursor: default;
+}
+
+.backDir
+{
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding: .75rem 1rem;
+  margin-bottom: 1rem;
+  list-style: none;
+  background-color: #e9ecef;
+  cursor: pointer;
+}
+
+li.script-select-li:hover
+{
+  background-color: #e9ecef;
+}
+
+li.script-select-li .fa-edit, .fa-trash
+{
+  visibility: hidden;
+  float: right;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+li.script-select-li:hover .fa-edit
+{
+  visibility: visible;
+  padding-top: 1px;
+}
+
+li.script-select-li:hover .fa-trash
+{
+  visibility: visible;
+}

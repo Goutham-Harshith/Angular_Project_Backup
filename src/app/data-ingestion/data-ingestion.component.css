@@ -1,0 +1,115 @@
+.drag-drop-cont {
+  background: #eef2f4;
+}
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper .btn {
+  border: 3px solid #8263ab;
+  color: #8263ab;
+  background-color: transparent;
+  padding: 5px 50px;
+  border-radius: 0px;
+  font-size: 18px;
+}
+
+.upload-btn-wrapper input[type="file"] {
+  width: 0px;
+  /* opacity: 0;
+  cursor: pointer;
+  width: 0px;
+  font-size: 0;
+  position: absolute; */
+}
+.flow-comments {
+  font-size: 15px;
+  resize: none;
+  height: 90px;
+}
+.file_fields_outer {
+  max-height: 315px !important;
+  overflow-y: auto;
+}
+
+/* .file_fields_list
+{
+  max-height: 315px !important;
+} */
+
+.file_fields_list table tr th {
+  background: #8263ab;
+  color: #fff;
+  font-size: 15px;
+  font-weight: normal;
+  border: 2px solid #fff;
+  padding: 10px 20px;
+  font-weight: 500;
+}
+.file_fields_list table tr td {
+  background: #eef2f4;
+  color: #8263ab;
+  font-size: 14px;
+  font-weight: normal;
+  border: 2px solid #fff;
+  padding: 8px 20px;
+}
+.file_fields_list table tr td select {
+  background: transparent;
+  border: none;
+  width: 100%;
+  color: #8263ab;
+}
+
+.data_ingestion_buttons button {
+  width: 210px;
+  margin: 0 0 0 10px;
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.drag-drop-cont {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+.file_fields_list td {
+  padding-bottom: 3px !important;
+  padding-top: 3px !important;
+}
+.commentMar {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+@media screen and (min-height: 780px) {
+  .page_content,
+  .content_left {
+    height: 95vh !important;
+  }
+}
+
+.displayNone {
+  display: none;
+}
+
+.requiredField
+{
+  color: red;
+  margin-top : -25px;
+}
+
+#previewBody tr td
+{
+  max-width: 20px;
+}
+
+.radio-inline span
+{
+  font-size: 20px;
+}
+
+.show-options
+{
+ cursor: pointer;
+}

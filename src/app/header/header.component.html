@@ -1,0 +1,57 @@
+<!-- HEADER OPEN -->
+<section class="menubar">
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container"> <a routerLink="/dashboard" class="navbar-brand"><img src="assets/images/logo.png"
+          class="img-fluid" title="WDAS logo"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span
+          class="navbar-toggler-icon"></span> </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <!-- <li class="nav-item"><a class="nav-link" title="Analyze"><i class="fa fa-cog"></i> Analyze</a></li> -->
+          <li class="nav-item solutions">
+            <div class="dropdown">
+              <button class="cursor-pointer nav-link border-0" title="Solutions" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-briefcase"></i> Solutions </button>
+              <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                <li class="rightArrow" *ngFor="let cat of reportDetails">
+                  <a class="dropdown-item">{{cat.category}}</a>
+                  <ul class="submenu dropdown-menu">
+                    <li class="rightArrow" *ngFor="let subCat of cat.subCategory">
+                      <a class="dropdown-item">{{subCat.name}}</a>
+                      <ul class="submenu dropdown-menu">
+                        <li *ngFor="let page of subCat.pages">
+                          <a class="dropdown-item" [routerLink]="['/reports-framework']" [queryParams]="{title: page.reports[0].reportName, pageCode: page.pageCode, reportCode : page.reports[0].reportCode }">{{page.reports[0].reportName}}</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <!-- ADAS flow link -->
+                    <ng-container *ngIf="cat.category=='Industry'">
+                      <li class="rightArrow">
+                        <a class="dropdown-item">Manufacturing</a>
+                        <ul class="submenu dropdown-menu">
+                          <li>
+                            <a class="dropdown-item" [routerLink]="['/adas']">ADAS</a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ng-container>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item"><a class="nav-link" routerLink="/visualisation" title="visualization"><i
+            class="fa fa-pie-chart"></i>&nbsp;Visualisation</a>
+          <li class="nav-item"><a class="nav-link" routerLink="/admin" title="Admin"><i class="fa fa-user"></i>
+              Admin</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" title="User"> {{userName}} </a></li>
+          <li class="nav-item"><a class="nav-link cursor" (click)="logout()" title="Logout"><i
+                class="fa fa-sign-out"></i>Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>
+<!-- HEADER END -->

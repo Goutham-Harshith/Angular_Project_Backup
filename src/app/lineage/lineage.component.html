@@ -1,0 +1,420 @@
+<!-- PAGE CONTENT OPEN -->
+<section class="page_content">
+  <div class="row">
+    <!-- Left Content Open-->
+    <div class="col-lg-12 col-md-12 col-12 page-height">
+      <div class="left_content">
+
+        <div class="col-12 lineage-cont p-0">
+          <div class="d-flex m-3 position-absolute w-100">
+            <h1>{{projectName}}</h1>
+            <div class="buttonDiv ml-auto ">
+              <button class="btn scriptNavigate btn_perple px-2 border-purple fon18 mx-2 noHover" *ngIf="enableScript"
+                (click)="scriptRedirect()">SCRIPT</button>
+              <button class="btn workflowNavigate btn_perple px-2 border-purple fon18 mx-2 noHover"
+                *ngIf="enableWrangle" (click)="WorkflowRedirect()">PREVIEW</button>
+              <button class="btn workflowNavigate btn_perple px-2 border-purple fon18 mx-2 noHover" data-toggle="modal"
+                href="#wrangleModal" *ngIf="enableWrangle" (click)="resetWrangle();loadWrangleTables()">QUICK
+                JOIN</button>
+            </div>
+          </div>
+          <!-- <div id ="svgcontainer"></div> -->
+          <div style="width:100%;height:100%;">
+            <ngx-graph [links]="links" [nodes]="nodes" [layout]="layout" [curve]="curve"
+              [draggingEnabled]="draggingEnabled" [panningEnabled]="panningEnabled" [enableZoom]="zoomEnabled"
+              [zoomSpeed]="zoomSpeed" [minZoomLevel]="minZoomLevel" [maxZoomLevel]="maxZoomLevel"
+              [panOnZoom]="panOnZoom" [autoZoom]="autoZoom" [autoCenter]="autoCenter" [update$]="update$"
+              [center$]="center$" [zoomToFit$]="zoomToFit$">
+
+              <ng-template #defsTemplate>
+                <svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4"
+                  orient="auto">
+                  <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+                </svg:marker>
+              </ng-template>
+
+              <!-- <ng-template #clusterTemplate let-cluster>
+                <svg:g class="node cluster">
+                  <svg:rect rx="5" ry="5" [attr.width]="cluster.dimension.width"
+                    [attr.height]="cluster.dimension.height" [attr.fill]="cluster.data.color" />
+                </svg:g>
+              </ng-template> -->
+
+              <ng-template #nodeTemplate let-node>
+                <svg:g class="node" (click)="setNodeDetails(node)">
+                  <!-- <svg:rect [attr.width]="node.dimension.width+18" [attr.height]="node.dimension.height"
+                    [attr.fill]="node.data.bgColor" /> -->
+                    <svg:image [attr.href]="node.data.icon" [attr.x]="0" [attr.y]="0" [attr.width]="50" [attr.height]="50"/>
+                    <title *ngIf="node.label.length>14">{{node.label}}</title>
+                    <svg:text alignment-baseline="central" [attr.x]="5" [attr.y]="node.dimension.height+15" [attr.title]="node.label">{{getSubString(node.label)}}</svg:text>
+                </svg:g>
+              </ng-template>
+
+              <ng-template #linkTemplate let-link>
+                <svg:g class="edge">
+                  <svg:path class="line" stroke-width="2" marker-end="url(#arrow)">
+                  </svg:path>
+                  <!-- <svg:text class="edge-label" text-anchor="middle">
+                    <textPath class="text-path" [attr.href]="'#' + link.id"
+                      [style.dominant-baseline]="link.dominantBaseline" startOffset="50%">
+                      {{link.label}}
+                    </textPath>
+                  </svg:text> -->
+                </svg:g>
+              </ng-template>
+            </ngx-graph>
+          </div>
+
+
+          <div class="col-12 my-3 graph-zoom-outer position-absolute">
+            <div class="graph-zoom-cont float-left mr-2">
+              <a href="javascript:void(0)" title="Minimize Graph"
+                class="bg_darkgray text-white px-3 pb-1 pt-2 float-left zoomOut" (click)="update$.next(true)"> <span
+                  class="d-inline-block align-middle"><i class="fa fa-minus fon20" aria-hidden="true"></i></span></a>
+              <a href="javascript:void(0)" title="Maximize Grapg" (click)="zoomToFit$.next(true)"
+                class="bg_darkgray text-white px-3 pb-1 pt-2 float-left zoomIn"> <span
+                  class="d-inline-block align-middle"><i class="fa fa-plus fon20" aria-hidden="true"></i></span></a>
+            </div>
+
+            <div class="graph-recenter-cont float-left  mr-2">
+              <a href="javascript:void(0)" title="Recenter" class="bg_darkgray text-white px-2 pb-1 pt-1 float-left"
+                (click)="update$.next(true);center$.next(true);"><img src="assets/images/recenter-icon.png"
+                  class="d-inline-block align-middle recenter" /> <span
+                  class="d-inline-block align-middle">Recenter</span></a>
+            </div>
+            <div class="graph-recenter-cont float-left">
+              <a href="javascript:void(0)" title="More Options"
+                class="bg_darkgray text-white px-3 pb-2 pt-1 float-left more_option"> <span
+                  class="d-inline-block align-middle">More Options</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 bg-white p-4 extra_options">
+          <div class="row ">
+            <div class="col-md-4 col-12 border-right opt_con p-4">
+              <h2 class="text_green mb-3">Organiser Assets</h2>
+              <div class="col-12 p-0 ">
+                <div class="row">
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_hdfs_green.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">HDFS</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_sql_green.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">SQL</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_r_green.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">R</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_hql_green.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">HQL</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_hdfs_green.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">HDFS</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_sql_green.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">SQL</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_r_green.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">R</h4>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-12 border-right opt_con p-4">
+              <h2 class="text_purple mb-3">&nbsp;</h2>
+              <div class="col-12 p-0">
+                <div class="row">
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_hdfs_purple.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">HDFS</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_sql_purple.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">SQL</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_r_purple.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">R</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_hql_purple.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">HQL</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_hdfs_purple.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">HDFS</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_sql_purple.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">SQL</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_r_purple.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">R</h4>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-12 opt_con p-4">
+              <h2 class="text_blue mb-3">Extra Assets</h2>
+              <div class="col-12 p-0">
+                <div class="row">
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_hdfs_blue.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">HDFS</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_sql_blue.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">SQL</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_r_blue.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">R</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_hql_blue.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">HQL</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_hdfs_blue.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">HDFS</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_sql_blue.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">SQL</h4>
+                  </div>
+                  <div class="col-3 text-center mb-3">
+                    <div class="icon_wrap">
+                      <img src="assets/images/asset_r_blue.png" class="img-fluid">
+                    </div>
+                    <h4 class="text-uppercase">R</h4>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- Left Content End-->
+  </div>
+</section>
+<!-- PAGE CONTENT END -->
+<!-- Data wrangling Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="wrangleModal">
+  <div class="modal-dialog " style="max-width:90%" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title content-heading"><span style="color:#8364a8">Quick Join </span></h2>
+        <button type="button" class="close lineage-close" data-dismiss="modal" aria-hidden="true"
+        (change)="resetWrangle();">&times;</button>
+      </div>
+      <div style="height:auto !important;" class="modal-body" >
+        <div [hidden]="!showWrangledForm">
+          <div class="row" style="margin:20px 0px 20px 0px;">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+              <input class="form-control" [(ngModel)]="tableName" list="fetchTablesList"
+                placeholder="Search Table Here">
+              <datalist id="fetchTablesList">
+                <option *ngFor="let tbl of tableList" value="{{tbl.tbl}}" >
+              </datalist>
+            </div>
+            <div class="col-sm-2">
+              <button class="btn bg_darkgray text-white px-3 pb-2 pt-1" (click)="fetchcolumns()"
+                [disabled]="list.length>=2||fetchCol">Submit</button>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="row">
+            <div id="canvas" class="col-8">
+              <svg id='connector_canvas'></svg>
+              <div class="connected-icon"><i class="fa fa-pencil-square fa-fw" data-toggle="modal"
+                  (click)="tbljoin=true;resetUi()"></i></div>
+
+              <div class="ui-item item-{{i}} " *ngFor="let tbl of list;index as i;" [ngClass]="{'float-right' : i==1}">
+                <div class="removeUi"><i class="fa fa-close fa-fw"
+                    (click)="removeUIItem(i)"></i></div>
+                <div class="con_anchor"></div>
+                <h4 class="tableName"
+                  title="{{tbl.name}}">{{tbl.name}}</h4>
+                <input type="text" class="colSearch form-control" [(ngModel)]="colSearchText[tbl.name]"
+                  placeholder="Search columns here">
+
+                <ul class="selectAll">
+                  <li><label><input type="checkbox" [(ngModel)]="isSelectAll[tbl.name]" (change)="selectAll(tbl.name)">
+                      Select All</label></li>
+                </ul>
+                <ul class="colName">
+                  <li *ngFor="let obj of tbl.columns|searchFilter:colSearchText[tbl.name]:['columnName'];index as l;">
+                    <label class="ellipse"><input type="checkbox" [(ngModel)]="selColumns[tbl.name][obj.columnName]">
+                      {{obj.columnName}}</label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="ui-itemjoin" *ngIf="tbljoin">
+              <h2 class="modal-heading text-center"><span style="color:#5f7c93">Table Join </span></h2>
+
+              <div class="row" style="padding:20px 20px 20px 20px;">
+                <div class="col-sm-12">
+                  <label>Select Join</label>
+                  <select class="form-control" [(ngModel)]="joinData.joinType">
+                    <option>Inner Join</option>
+                    <option>Outer Join</option>
+                    <option>Left Join</option>
+                    <option>Right Join</option>
+                  </select>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="col-sm-6">
+                  <label>First Table</label>
+                  <select class="form-control" [(ngModel)]="joinData.firstTbl">
+                    <option value="">Select Table</option>
+                    <option *ngFor="let t of list">{{t.name}}</option>
+                  </select>
+                </div>
+                <div class="col-sm-6">
+                  <label>Second Table</label>
+                  <select class="form-control" [(ngModel)]="joinData.secondTbl">
+                    <option value="">Select Table</option>
+                    <option *ngFor="let t of list">{{t.name}}</option>
+                  </select>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-6">
+                  <div *ngIf="joinData.firstTbl">
+                    <label>Select Column</label>
+                    <select class="form-control" [(ngModel)]="joinData.firstCol">
+                      <option value="">Select Column</option>
+                      <option *ngFor="let t of getRelatedColumns(joinData.firstTbl)">{{t}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div *ngIf="joinData.secondTbl">
+                    <label>Select Column</label>
+                    <select class="form-control" [(ngModel)]="joinData.secondCol">
+                      <option value="">Select Column</option>
+                      <option *ngFor="let t of getRelatedColumns(joinData.secondTbl)">{{t}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-12" style="text-align:center;padding:10px 0px;">
+                  <button class="btn bg_darkgray text-white" (click)="submitJoinData()"
+                    [disabled]="!joinData.firstTbl||!joinData.secondTbl||!joinData.firstCol||!joinData.secondCol">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col" *ngIf="!showWrangledForm" style="padding:10px;">
+          <div class="d-flex">
+            <div class="p-2 query" *ngIf="showPreview">
+              <label for="query">Query</label>
+              <textarea class="form-control" rows="2" readonly>{{previewWrangledData.query}}</textarea>
+            </div>
+            <div class="p-2" style="margin-top: 35px;" *ngIf="showPreview">
+              <div class="d-flex float-sm-right">
+                <div class="buttonDiv ml-auto">
+                  <button class="btn  btn_perple noHover " (click)="showNewWrangledTable()">Create Table</button>
+                  &nbsp;
+                  <button class="btn  btn_perple noHover " (click)="showWrangledForm=true;">Back</button>
+                </div>
+  
+              </div>
+            </div>
+            <div class="p-4 col-6" *ngIf="showcreateTable">
+              <input type="text" placeholder="NewTableName" class="form-control" [(ngModel)]="newTableName">
+            </div>
+            <div class="p-4 col-6" *ngIf="showcreateTable">
+              <div class="buttonDiv d-flex flex-row">
+                <button class="btn btn_perple px" (click)="createWrangledTable()">Submit</button>
+                &nbsp;
+                <button class="btn btn_perple" (click)="goToPreview()">Back</button>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-sm-12 col-md-12">
+              <div class="preview-table table-responsive">
+                <table class="table " cellpadding="0" cellspacing="0" border="0" *ngIf="previewWrangledData">
+                  <thead >
+                    <tr>
+                      <th *ngFor="let header of previewWrangledData.queryResponse[0]">{{header}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let qprowData of previewWrangledData.queryResponse|slice:1;index as i"
+                      [ngClass]="{'hidden':i<1}">
+                      <td class="ellipse" *ngFor="let qpcolData of qprowData">{{qpcolData}}</td>
+                    </tr> 
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

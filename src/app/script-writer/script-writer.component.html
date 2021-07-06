@@ -1,0 +1,518 @@
+<section class="page_content">
+
+  <div class="modal fade bd-example-modal-lg" id="run-modal" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="initZeppelinRunForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" [formGroup]="zeppelinRunForm" (ngSubmit)="ScriptRun()">
+          <div *ngIf="showRunScriptMsg" class="row">
+            <div class="col-xs-10 col-lg-12 col-xl-12 alignPopup">
+              <app-success-and-failure [status]="status" [message]="message">
+              </app-success-and-failure>
+            </div>
+          </div>
+          <h1 class="modal-title content-heading">Script Execution</h1>
+
+          <div class="execution-mode-cont">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <p class="staging-button-head">Select source </p>
+              </div>
+            </div>
+            <div>
+              <div class="row options">
+                <div *ngIf="sourcesList.length > 0" class="col-12">
+                  <angular2-multiselect [data]="sourcesList" [(ngModel)]="selectedSourceNodes"
+                    formControlName="zeppelinSources" [settings]="dropdownSettings"
+                    (onDeSelectAll)="deSelectAllSources()">
+                  </angular2-multiselect>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="execution-mode-cont">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <p class="staging-button-head">Select target </p>
+              </div>
+            </div>
+            <div class="input-container" formArrayName="zeppelinTargets">
+              <div class="row options" *ngFor="let item of zepTgt.controls; let pointIndex=index"
+                [formGroupName]="pointIndex">
+                <div class="col-5 target-inputs">
+                  <select class="select-dropdown" name="targetType" formControlName="targetType"
+                    (change)="onChangeTargetType(pointIndex)">
+                    <option disabled selected value>Select Target Type</option>
+                    <option *ngFor="let target of targetTypes" [value]="target">{{target}}</option>
+                  </select>
+                </div>
+                <div class="col-5 target-inputs">
+                  <input class="target-node-name" type="text" placeholder="Enter table/Node Name"
+                    formControlName="targetName">
+                  <div *ngIf="getNodeNameControl(pointIndex)?.message">
+                    <div class="requiredField">
+                      {{getNodeNameControl(pointIndex).message}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <i *ngIf="pointIndex == 0" class="fa fa-plus-circle mt-1" aria-hidden="true"
+                    (click)="addTargetNode()"></i>
+                  <i *ngIf="pointIndex > 0" class="fa fa-minus-circle mt-1" aria-hidden="true"
+                    (click)="removeTargetNode(pointIndex)"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <p class="staging-button-head">Select the staging bucket name:</p>
+            </div>
+          </div>
+          <div class="d-flex options">
+            <div class="col-4 pl-4">
+              <div class="radio">
+                <label class="mb-0">
+                  <input class="form-check-input" type="radio" checked="checked" formControlName="bucketName"
+                    value="Raw" />
+                  <span class="staging-bucket-raw">Raw</span>
+                </label>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="radio">
+                <label class="mb-0">
+
+                  <input class="form-check-input" type="radio" formControlName="bucketName" value="Landing" />
+                  <span class="staging-bucket-raw">Landing</span>
+                </label>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="radio">
+                <label class="mb-0">
+
+                  <input class="form-check-input" type="radio" formControlName="bucketName" value="Processed" />
+                  <span class="staging-bucket-raw">Processed</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="execution-mode-cont">
+            <div class="row">
+              <div class="col-12">
+                <p class="staging-button-head">Select the execution mode:</p>
+              </div>
+            </div>
+
+            <div class="d-flex options">
+              <div class="col-4 pl-4">
+                <div class="radio">
+                  <label class="mb-0">
+                    <input class="form-check-input" type="radio" checked="checked" formControlName="mode"
+                      value="Synchronous" />
+                    <span class="staging-bucket-raw">Synchronous</span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="radio">
+                  <label class="mb-0">
+
+                    <input class="form-check-input" type="radio" formControlName="mode" value="Asynchronous" />
+                    <span class="staging-bucket-raw">Asynchronous</span>
+                  </label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="execution-mode-cont">
+            <p class="staging-button-head">Enter Flow Creation Comments</p>
+            <textarea type="text" formControlName="comments" id="comments" rows="2"
+              class="form-control mb-1 preview-comment" maxlength="1024"
+              i18n-placeholder="Enter Flow Creation Comments"></textarea>
+
+            <div *ngIf="zeppelinRunForm.controls.comments.touched && !zeppelinRunForm.controls.comments.valid">
+              <div class="requiredField"
+                *ngIf="zeppelinRunForm.controls.comments.errors.required && zeppelinRunForm.controls.comments.touched && !zeppelinRunForm.controls.comments.valid">
+                *Comments are required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer align-footer">
+          <button type="button" class="btn btn-secondary" (click)="ScriptRun()"
+            [disabled]="!zeppelinRunForm.valid">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade bd-example-modal-lg" id="Selectfile" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" (click)="resetFileVersions()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modal-table">
+          <h1 class="modal-title content-heading">File Versions</h1>
+          <div class="row file-version-cont">
+            <div class="row rerun-table">
+              <table class="table table-hover ingest-table rerun-cont">
+                <thead id="table-head">
+                  <tr>
+                    <th *ngIf="!isDvcFile"> </th>
+                    <th>CREATED BY</th>
+                    <th>CREATED TIME</th>
+                    <th>COMMIT ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of fileVersions; let i=index">
+                    <td *ngIf="!isDvcFile">
+                      <input type="radio" name="selCommitID" [value]="item.commitID" [(ngModel)]="selCommitID">
+                    </td>
+                    <td>{{item.commitedBy}}</td>
+                    <td>{{item.commitedDate | date:'short'}}</td>
+                    <td>{{item.commitID}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer p-align" *ngIf="!isDvcFile">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="submitFileVersions()"
+            [disabled]="!selCommitID">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade bd-example-modal-lg" id="save-commit-modal" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="initCommitForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" [formGroup]="commitForm" (ngSubmit)="scriptCommit()">
+          <div *ngIf="showCodeCommitMsg" class="row">
+            <div class="col-xs-10 col-lg-12 col-xl-12 alignPopup">
+              <app-success-and-failure [status]="status" [message]="message">
+              </app-success-and-failure>
+            </div>
+          </div>
+          <h1 class="modal-title content-heading">Do you want to commit?</h1>
+
+          <div class="execution-mode-cont">
+            <p class="staging-button-head">Commit message: </p>
+            <textarea type="text" formControlName="commitMsg" id="comments" rows="4"
+              class="form-control mb-1 preview-comment" maxlength="1024"
+              i18n-placeholder="Enter Flow Creation Comments">
+            </textarea>
+            <div *ngIf="commitForm.controls.commitMsg.touched && !commitForm.controls.commitMsg.valid">
+              <div class="requiredField"
+                *ngIf="commitForm.controls.commitMsg.errors.required && commitForm.controls.commitMsg.touched && !commitForm.controls.commitMsg.valid">
+                *This field is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" id="removeBorderTop">
+          <button type="button" class="btn btn-secondary" (click)="scriptCommit()"
+            [disabled]="!commitForm.valid">Commit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade bd-example-modal-lg" id="delete-git-file" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="initDeleteGitFileForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" [formGroup]="deleteGitFileForm">
+          <div *ngIf="showDeleteGitFileMsg" class="row">
+            <div class="col-xs-10 col-lg-12 col-xl-12 alignPopup">
+              <app-success-and-failure [status]="status" [message]="message">
+              </app-success-and-failure>
+            </div>
+          </div>
+          <h1 class="modal-title content-heading">Do you want to delete this file?</h1>
+
+          <div class="execution-mode-cont">
+            <p class="staging-button-head">Commit message: </p>
+            <textarea type="text" formControlName="cmtMsg" rows="4"
+              class="form-control mb-1 preview-comment" maxlength="1024"
+              placeholder="Enter comments">
+          </textarea>
+          <div *ngIf="deleteGitFileForm.controls.cmtMsg.touched && !deleteGitFileForm.controls.cmtMsg.valid">
+            <div class="requiredField">
+              *This field is required
+            </div>
+          </div>
+          </div>
+        </div>
+        <div class="modal-footer" id="removeBorderTop">
+          <button type="button" class="btn btn-secondary" (click)="deleteGitFiles()"
+          [disabled]="!deleteGitFileForm.valid">Commit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade bd-example-modal-lg" id="edit-git-file" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="initEditGitFileForm()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" [formGroup]="editGitFileForm">
+        <div *ngIf="showEditGitFileMsg" class="row">
+          <div class="col-xs-10 col-lg-12 col-xl-12 alignPopup">
+            <app-success-and-failure [status]="status" [message]="message">
+            </app-success-and-failure>
+          </div>
+        </div>
+        <h1 class="modal-title content-heading">Edit Git File</h1>
+
+        <div class="modal-inner-head" class="row ml-0 mr-0">
+          <label class="staging-button-head">New file name : </label>
+          <input type="text" formControlName="newFileName" name="" id="input2" class="form-control mb-4"
+            required="required" pattern="" title="">
+        </div>
+        <div class="execution-mode-cont">
+          <p class="staging-button-head">Commit message: </p>
+          <textarea type="text" formControlName="cmtMsg" rows="4"
+            class="form-control mb-1 preview-comment" maxlength="1024"
+            placeholder="Enter comments">
+        </textarea>
+        </div>
+      </div>
+      <div class="modal-footer" id="removeBorderTop">
+        <button type="button" class="btn btn-secondary" (click)="editGitFileName()"
+        [disabled]="!editGitFileForm.valid">Commit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="modal fade " id="add-file-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="initAddFileForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pb-0" [formGroup]="addFile" (ngSubmit)="addScriptFile()">
+          <div *ngIf="showAddFilesMsg" class="row">
+            <div class="col-xs-10 col-lg-12 col-xl-12 alignPopup">
+              <app-success-and-failure [status]="status" [message]="message">
+              </app-success-and-failure>
+            </div>
+          </div>
+          <h1 class="modal-title content-heading">Check in File</h1>
+          <div class="execution-mode-cont fontBlack">
+            <div class="modal-inner-head" class="row ml-0 mr-0">
+              <label class="staging-button-head">Folder Name : </label>
+              <input type="text" formControlName="folderName" name="" id="input2" class="form-control mb-4" value=""
+                required="required" pattern="" title="">
+              <div *ngIf="addFile.controls.folderName.touched && !addFile.controls.folderName.valid">
+                <div class="requiredField"
+                  *ngIf="addFile.controls.folderName.errors.required && addFile.controls.folderName.touched && !addFile.controls.folderName.valid">
+                  folder name is
+                  required
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-inner-head" class="row ml-0 mr-0">
+              <div class="col-12 drag-drop-cont px-5 mb-4">
+                <h2 class="d-inline-block mb-0"><img src="assets/images/drag_drop_icon.png" width="60"
+                    class="d-inline-block align-middle" /><span class="pl-3">{{filePlaceHolder}}</span></h2>
+                <div class="upload-btn-wrapper float-right mt-2">
+                  <label for="browser" class="btn">Browse</label>
+                  <input type="file" id="browser" name="myfile" (change)="uploadFile($event.target.files)" />
+                </div>
+              </div>
+            </div>
+            <div class="execution-mode-cont">
+              <div class="row">
+                <div class="col-12">
+                  <p class="staging-button-head">Source control</p>
+                </div>
+              </div>
+              <div class="d-flex options pl-0">
+                <div class="col-4 pl-4">
+                  <div class="radio">
+                    <label class="mb-0">
+                      <input class="form-check-input" type="radio" checked="checked" formControlName="dvc"
+                        [value]=false />
+                      <span class="staging-bucket-raw">Git</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="radio">
+                    <label class="mb-0">
+                      <input class="form-check-input" type="radio" formControlName="dvc" [value]=true />
+                      <span class="staging-bucket-raw">DVC</span>
+                    </label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="modal-inner-head" class="row ml-0 mr-0">
+              <label class="staging-button-head">Comments:</label>
+              <input type="text" formControlName="comments" name="" id="input" class="form-control mb-4" value=""
+                required="required" pattern="" title="">
+              <div *ngIf="addFile.controls.comments.touched && !addFile.controls.comments.valid">
+                <div class="requiredField"
+                  *ngIf="addFile.controls.comments.errors.required && addFile.controls.comments.touched">
+                  Comments are required
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer py-0 borderTop">
+          <button type="button" class="btn btn-secondary" (click)="addScriptFile()"
+            [disabled]="!addFile.valid">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Left Content Open-->
+    <div class="col-lg-4 col-md-6 col-12 pr-0 content_left">
+      <div class="left_content">
+        <div class="bg_darkgray p-3">
+          <div class="row align-items-center">
+            <div class="col-sm-6 col-12 mb-2 mb-sm-0 text-center text-sm-left ">
+              <h3 class="text_lightgray mb-0 pl-md-3 pl-0">Script</h3>
+            </div>
+            <div class="col-sm-6 col-12 mb-2 mb-sm-0 text-center text-sm-right">
+              <h4 class="text-white mb-0"><a (click)="redirectToLineage()" class="text-white cursor"><i
+                    class="fa fa-angle-left" aria-hidden="true"></i> Back</a></h4>
+            </div>
+          </div>
+        </div>
+        <div class="px-4 pt-4">
+          <div class="">
+            <div class="addFile">
+              <a class="btn border-0 bg_darkgray fon18" type="button" id="dropdownMenuButton" data-toggle="modal"
+                aria-haspopup="true" aria-expanded="false" href="#add-file-modal">
+                Add <i class="fa fa-plus-circle fon18 ml-2"></i>
+              </a>
+            </div>
+            <div>
+              <nav aria-label="breadcrumb" class="d-flex">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item" *ngIf="folderPath.length == 0" aria-current="page"><a></a></li>
+                  <li class="breadcrumb-item" aria-current="page" *ngFor="let dir of folderPath"
+                    (click)="changeDir(dir)"><a>{{dir}}</a></li>
+                </ol>
+                <div class="backDir">
+                  <i class="fa fa-arrow-left" aria-hidden="true" (click)="changeDir()"></i>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <div class="px-4 pb-4" *ngIf="gitFoldersDetails?.length > 0">
+          <div id="files" class="file-container">
+            <div class="list-wrapper">
+              <ul class="fileul fileul-list">
+                <li *ngFor="let file of gitFoldersDetails" class="scriptSelectList script-select-li">
+                  <div *ngIf="file.directory" class="fileli-drag" title=" {{file.path}}">
+                    <i class="fa fa-folder-o" aria-hidden="true"></i>
+                    <a class="scriptLi fileli-anc" data-toggle="modal"
+                      (click)="gitFiles(file.path, file.directory)">{{file.path}}</a>
+                  </div>
+                  <div *ngIf="!file.directory" class="fileli-drag" title=" {{file.path}}">
+                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    <a class="scriptLi fileli-anc" data-toggle="modal" href="#Selectfile"
+                      (click)="gitFiles(file.path)">{{file.path}}</a>
+                    <i data-toggle="modal" href="#delete-git-file" class="fa fa-trash" (click)="setDeletePath(file.path)"></i>
+                    <i data-toggle="modal" href="#edit-git-file" class="fa fa-edit" (click)="setEditPath(file.path)"></i>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Left Content End-->
+    <!-- Right Content Open-->
+    <div class="col-lg-8 col-md-6 col-12 px-0 content_right bg_black">
+      <div class=" p-3 p-sm-5 scrCont">
+
+        <div class="col-12 mb-5 marBtm ">
+          <div class="row d-flex align-items-end">
+            <div class="col-lg-5 col-md-12 ">
+              <div class="select_custom w-75">
+                <select class="border border-dark form-control rounded-0 bg_transparent fontWhite " name="language"
+                  [(ngModel)]="selectedInterpreter"
+                  (change)="this.cmOptions['mode'] = this.interpreterDetails[$event.target.value];">
+                  <ng-container *ngFor="let item of interpreterDetails | keyvalue;">
+                    <option class="fontBlack" [value]="item.key">{{item.key}}</option>
+                  </ng-container>
+                </select>
+              </div>
+            </div>
+            <div class="fileName">
+              <h2>{{cmFileName}}</h2>
+            </div>
+            <div class="d-flex ml-auto">
+              <a class="btn  px-4 border-dark bg_transparent fon18 mx-2 noHover fontWhite" title="Save"
+                data-toggle="modal" href='#save-commit-modal'>Save</a>
+              <!-- <button class="btn btn_perple px-4 border-purple fon18 mx-2" title="Run" ><a href='#run-modal'>Run</a></button> -->
+              <a class="btn btn_perple px-4 border-purple fon18 mx-2 noHover" title="Run" data-toggle="modal"
+                (click)="initZeppelinRunForm()" href='#run-modal'>Run</a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-12 script-tag-cont">
+          <ngx-codemirror [(ngModel)]="code" [options]="cmOptions"></ngx-codemirror>
+        </div>
+
+        <div class="col-12 mt-5 log-console-cont position-relative">
+          <input type="text" class="border border-dark form-control rounded-0 bg_transparent text_offwhite"
+            value="Log console" />
+          <a href="javascript:void(0)" title="Log console" class="position-absolute"><i class="fa fa-expand font22"
+              aria-hidden="true"></i></a>
+        </div>
+
+      </div>
+    </div>
+    <!-- Right Content End-->
+  </div>
+</section>

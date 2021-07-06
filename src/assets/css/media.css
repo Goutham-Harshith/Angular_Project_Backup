@@ -1,0 +1,26 @@
+@media (max-width:1440px){
+    .login_bg .login_logo{max-height:70px;}
+    .login_bg {padding: 80px 50px;}
+    .login_wrap {padding: 50px;}
+    }
+    @media (max-width:1366px){
+    .page_content .card-deck .card{margin-right: 5px;margin-left: 5px;}
+    .page_content .card-body{padding: 70px 15px 10px 5px;}
+    }
+    @media (max-width:1200px){
+    .page_content .card-deck .card{flex: inherit;}
+    .login_bg h1 {font-size: 36px;}
+    .login_bg {background-size: 40%;}
+    }
+    @media (max-width:991px){
+    .menubar{padding: 5px 0;}
+    .navbar-brand img {max-height: 40px;}
+    }
+    @media (max-width:767px){
+    .login_bg {padding: 80px 50px 200px;height:100%;}
+    }
+    @media (max-width:575px){
+    .login_bg {padding: 50px 30px;}
+    .login_wrap {padding: 30px;}
+    .login_bg h1 {font-size: 28px;}
+    }

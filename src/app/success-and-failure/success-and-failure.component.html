@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="alert alert-success" *ngIf="status === 'Success'" id="show_hide_bt" (click)="statusClose()">
+        <strong>{{status}}!</strong> {{ message}}.
+        <i class="fa fa-check float-right"></i>
+    </div>
+    <div class="alert alert-danger" *ngIf="status === 'Failure'" id="show_hide_bt" (click)="statusClose()">
+        <strong>{{status}}!</strong> {{ message}}.
+        <i class="fa fa-times float-right"></i>
+    </div>
+    <div class="alert alert-warning alert-dismissible fade show " *ngIf="status === 'Warning'" id="show_hide_bt"
+        (click)="statusClose()">
+        <strong>{{status}}!</strong> {{ message}}.
+        <i class="fa fa-times float-right"></i>
+    </div>
+    <div class="alert alert-info " *ngIf="status === 'Info'" id="show_hide_bt" (click)="statusClose()">
+        <strong>{{status}}!</strong> {{ message}}.
+        <i class="fa fa-times float-right"></i>
+    </div>
+    <div class="alert alert-danger " *ngIf="status === 'Error'" id="show_hide_bt" (click)="statusClose()">
+            <i class="fa fa-exclamation-triangle fa-1x"></i>
+        <strong>{{status}}!</strong> {{ message}}.
+        <i class="fa fa-times float-right"></i>
+    </div>
+
+</div>

@@ -1,0 +1,113 @@
+<section class="page_content bg_gray2">
+  <div class="report-heading text_perple">
+    {{reportTitle}}
+  </div>
+  <div class="filters-container d-flex flex-wrap">
+    <div class="filter" *ngFor="let filter of allFilterData; let i=index;"
+      [ngClass]="((allFilterData.length < 5) && (i ==0 ))?'ml-auto':' '">
+      <div class="text-filter" *ngIf="filter.filterType == 'Text'">
+        <label for="cn" class="text-uppercase main-header-label text_perple">{{filter.filterLabel}}</label>
+        <angular2-multiselect class="custom-class" [data]="filter.filterData" [(ngModel)]="filter.filterSelData"
+        [settings]="dropdownMulti" (onClose)="refreshFilters(filter.filterName, $event)"
+        (onOpen)="disableButton=true;" (onDeSelect)="refreshFilters(filter.filterName, $event)">
+        </angular2-multiselect>
+      </div>
+
+      <div class="date-filter" *ngIf="filter.filterType == 'Date'">
+        <label class="main-header-label text-uppercase text_perple">{{filter.filterLabel}}</label>
+        <div class="d-flex">
+          <input type="date" [(ngModel)]="filter.from" [max]="filter.to">
+          <span class="mt-1 input-field-seperator"> - </span>
+          <input type="date" [(ngModel)]="filter.to">
+        </div>
+      </div>
+
+      <div class="num-filter" *ngIf="filter.filterType == 'Number' ">
+        <label name="filter.filterName" class="main-header-label text-uppercase text_perple">{{filter.filterLabel}}</label>
+        <div class="d-flex">
+          <input type="number" name="filter.filterName" [(ngModel)]="filter.from"
+            (onChange)="refreshFilters(filter.filterName)" [max]="filter.to">
+            <span class="mt-1 input-field-seperator"> - </span>
+          <input type="number" name="filter.filterName" [(ngModel)]="filter.to">
+        </div>
+      </div>
+
+    </div>
+
+    <button class="btn_perple btn" (click)="applyFilter();" [disabled]="disableButton"> Apply Filters</button>
+    <button class="btn_perple btn" (click)="resetFilters();"> Reset Filters</button>
+
+  </div>
+  <div class="content mt-3">
+
+    <div *ngIf="allCard.length > 0" #CardContainer class="cards-container d-flex align-items-center">
+      <!-- <i *ngIf="checkScroll();" class="fa fa-chevron-left fa-3x ml-auto mr-3 cursor-pointer" aria-hidden="true" (click)="scrollCard('left');"></i> -->
+      <div class="main-cards ml-auto mr-auto" #MainCards>
+        <div class="flex-column p-1 card-layout" *ngFor="let card of allCard; first as isFirst; last as isLast"
+          [ngClass]="{'mw-100':isLast}">
+          <div class="main-header-label text-uppercase text-center">{{card.cardLabel}}
+          </div>
+          <div class="sub-card-container">
+            <div class="sub-card" *ngFor="let subcard of card.subCard">
+              <div class="subcard-label text-uppercase text-center" title="{{subcard.subCardLabel}}">
+                {{subcard.subCardLabel}}</div>
+              <!-- <div class="subcard-value">{{subcard.subCardValue | number : '1.0-2'}} {{subcard.suffix}}</div> -->
+              <div class="subcard-value">{{subcard.subCardValue | shortNumber}} {{subcard.suffix}}</div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <!-- <i class="fa fa-chevron-right fa-3x mr-auto ml-3 cursor-pointer" aria-hidden="true" (click)="scrollCard('right')"></i> -->
+    </div>
+
+    <div class="reports-container position-relative">
+      <!-- Graph divs starting -->
+      <ng-container *ngFor="let graph of allGraphData;">
+        <div *ngIf="(graph.masterGraphData | json) != ({} | json)" class="graph">
+          <span class="main-header-label text_perple">
+            {{graph.graphName}}
+          </span>
+          <div class="card-layout">
+            <!-- <span> this is sample
+          <i class="fas fa-expand-alt"></i>
+          </span> -->
+            <canvas id="graph_{{graph.graphName}}"></canvas>
+          </div>
+        </div>
+      </ng-container>
+      <!-- Graph divs ending -->
+
+      <!-- Table divs starting -->
+      <div *ngFor="let table of allTableData; let i=index;" class="tabular-data position-relative">
+        <span class="position-absolute main-header-label text_perple">{{table.tableName}}</span>
+        <div class="table-container card-layout">
+          <div class="table-content">
+            <table cellpadding="0" cellspacing="0" border="0" class="table m-0" class="table table-data">
+              <thead>
+                <tr *ngFor="let header of table.data | slice:0:1;">
+                  <th class="item" *ngFor="let colName of header"> {{colName}} </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let row of table.data | slice:1 | paginate: { itemsPerPage: pageSize[i], currentPage: p[i], id: table.tableName }">
+                  <td class="preview ellipsis" *ngFor="let data of row;">{{data}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="pageSize[i] < table.data.length-1" class="page-control">
+            <label name="pageSize">Page Size</label>
+            <input type="number" value="pageSize[i]" [(ngModel)]="pageSize[i]">
+            <pagination-controls (pageChange)="p[i] = $event" [id]="table.tableName"></pagination-controls>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</section>

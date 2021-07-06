@@ -1,0 +1,165 @@
+<!-- PAGE CONTENT OPEN -->
+<section class="page_content">
+    <div class="row">
+        <!-- Left Content Open-->
+        <div class="col-lg-4 col-md-6 col-12 pr-0 content_left">
+            <app-page-left-cont></app-page-left-cont>
+        </div>
+        <!-- Left Content End-->
+        <!-- Right Content Open-->
+        <div class="col-lg-8 col-md-6 col-12 pl-0 content_right pb-5 rightBodyPad">
+                <div class="px-5 pb-4">
+                    <form name="modalForm" [formGroup]="form" (ngSubmit)="submitForm()">
+                        <div class="d-flex">
+                            <div class="col-4 mr-2 align-items-center row">
+                                <label class="mb-0 mr-3">Project Name</label>
+                                <input type="text" class="mb-4 border border-dark form-control rounded-0"
+                                    formControlName="projectName" (keyup)="this.validateProjectName.next($event)"/>
+                                <div *ngIf="form.controls.projectName.touched && !form.controls.projectName.valid || isFormInvalid && !form.controls.projectName.valid">
+                                    <div class="requiredField">Project name is required</div>
+                                </div>
+                                <div *ngIf="projectNameErrorMsg !='' && form.controls.projectName.valid">
+                                    <div class="requiredField">{{projectNameErrorMsg}}</div>
+                                 </div>
+                            </div>
+                            <div class="col-4 mr-2 align-items-center row select-dropdown">
+                                <label class="mb-0 mr-3">Sources</label>
+                                <select class="mb-4 border border-dark form-control rounded-0" id="inputdatabaseName"
+                                    formControlName="sourceName" required="required" (change)="loadForm($event)">
+                                    <option value="18">SFTP</option>
+                                    <option value="3">HDFS</option>
+                                    <option value="2">Local</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex px-0" *ngIf="form.value.sourceName != '2'">
+                            <div class="col-4 row align-items-center d-flex mr-2">
+                                <label class="mb-0  d-inline-block mr-3 align-middle">Host</label>
+                                <input type="text" class="mb-4 border d-inline-block border-dark form-control rounded-0"
+                                    required="required" formControlName="host" />
+                                <div
+                                    *ngIf="form.controls.host.touched && !form.controls.host.valid || isFormInvalid && !form.controls.host.valid || isLoadFormInvalid && !form.controls.host.valid">
+                                    <div class="requiredField">Host name is required</div>
+                                </div>
+                            </div>
+                            <div class="col-4 row align-items-center d-flex mr-2">
+                                <label class="mb-0  d-inline-block mr-3 align-middle">Username</label>
+                                <input type="text"
+                                    class="mb-4 border d-inline-block  border-dark form-control rounded-0"
+                                    required="required" formControlName="username" />
+                                <div
+                                    *ngIf="form.controls.username.touched && !form.controls.username.valid || isFormInvalid && !form.controls.username.valid || isLoadFormInvalid && !form.controls.username.valid">
+                                    <div class="requiredField">Username is required</div>
+                                </div>
+                            </div>
+                            <div class="col-4 row align-items-center d-flex mr-2">
+                                <label class="mb-0  d-inline-block mr-3 align-middle">Password</label>
+                                <input type="password"
+                                    class="mb-4 border d-inline-block  border-dark form-control rounded-0"
+                                    required="required" formControlName="password" />
+                                <div
+                                    *ngIf="form.controls.password.touched && !form.controls.password.valid || isFormInvalid && !form.controls.password.valid || isLoadFormInvalid && !form.controls.password.valid">
+                                    <div class="requiredField">Password is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex px-0">
+                            <div class="col-4 row align-items-center d-flex mr-2" *ngIf="form.value.sourceName == '18'">
+                                <label class="mb-0  d-inline-block mr-3 align-middle">Port</label>
+                                <input type="number" min="1"
+                                    class="mb-4 border d-inline-block  border-dark form-control rounded-0"
+                                    required="required" formControlName="port" />
+                                <div
+                                    *ngIf="form.controls.port.touched && !form.controls.port.valid || isFormInvalid && !form.controls.port.valid">
+                                    <div class="requiredField">Port number is required</div>
+                                </div>
+                            </div>
+                            <div class="col-4 row align-items-center d-flex mr-2">
+                                <label class="mb-0  d-inline-block mr-3 align-middle">File Path</label>
+                                <div class="input-group">
+                                    <input class="mb-4 border d-inline-block border-dark form-control rounded-0 "
+                                        type="text" name="" formControlName="filepath" pattern="" title="" />
+                                </div>
+                            </div>
+                            <div class="col-4 row align-items-center d-flex mr-2">
+                                <button class="btn btn_perple float-left loadButton" type="button" title="Load"
+                                    (click)="loadFilepath()">Load</button>&nbsp;
+                                <button class="btn btn_darkgray float-left" title="Reset" (click)="loadForm()"
+                                    type="button">Reset</button>
+                            </div>
+                        </div>
+                        <div *ngIf="isFilesLoaded">
+                            <div class="px-6 pb-4">
+                                <div class="col-12 d-flex px-0">
+                                    <div class="col-4 mr-2 align-items-center row select-dropdown">
+                                        <label class="mb-0 mr-3">Target</label>
+                                        <select class="mb-4 border border-dark form-control rounded-0"
+                                            id="inputdatabaseName" formControlName="target" required="required">
+                                            <option value="3">HDFS</option>
+                                            <option value="23">MinIO</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-4 row align-items-center d-flex mr-2">
+                                        <label class="mb-0  d-inline-block mr-3 align-middle">Destination
+                                            location</label>
+                                            <input type="text"
+                                                class="mb-4 border d-inline-block border-dark form-control rounded-0"
+                                                required="required" formControlName="destlocation" />
+                                            <div
+                                                *ngIf="form.controls.destlocation.touched && !form.controls.destlocation.valid || isFormInvalid && !form.controls.destlocation.valid">
+                                                <div class="requiredField">Destination location is required</div>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 my-2 p-0  border border-medium">
+                                    <div class="data-ingestion-filelist p-1">
+                                        <div class="border border-medium table-scroll ">
+                                            <table cellpadding="0" cellspacing="0" border="0"
+                                                class="table table-bordered m-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>File name </th>
+                                                        <th>File size (mb)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let eachFile of fileNameToIngested">
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox pl-0">
+                                                                <label>{{eachFile.fileName}}</label>
+                                                            </div>
+                                                        </td>
+                                                        <td>{{eachFile.size}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 p-0 commentMar row align-items-center mr-2 ml-0 mt-4">
+                                    <label class="mb-0  d-inline-block mr-3 align-middle">Enter Comments</label>
+                                    <textarea placeholder="Enter flow creation comments"
+                                        class="mb-4 form-control border-medium p-3 flow-comments"
+                                        formControlName="largeFileComments"></textarea>
+                                    <div
+                                        *ngIf="form.controls.largeFileComments.touched && !form.controls.largeFileComments.valid || isFormInvalid && !form.controls.largeFileComments.valid">
+                                        <div class="requiredField">Comments is required</div>
+                                    </div>
+                                </div>
+
+                                <div class="row data_ingestion_buttons px-3">
+                                    <div class="col-lg-4 col-md-12 pr-0 pt-1 submit-button">
+                                        <button class="btn btn_perple float-left w-100 m-0 " type="submit"
+                                            title="Connect">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+        <!-- Right Content End-->
+    </div>
+</section>
+<!-- PAGE CONTENT END -->
